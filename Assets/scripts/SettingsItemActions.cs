@@ -11,7 +11,8 @@ public class SettingsItemActions : MonoBehaviour {
 	
 	private AudioClip clip;
 	private WWW w;
-	public float fileLoadWaitStep = 0.1f;
+	private float fileLoadTime = 0f;
+	public float fileLoadTimeStep = 0.1f;
 	
 	void Awake()
 	{
@@ -20,12 +21,12 @@ public class SettingsItemActions : MonoBehaviour {
 	
 	public void ChooseFile()
 	{
-		Debug.Log("SettingsItemActions.ChooseFile(): BEGIN");
+		//Debug.Log("SettingsItemActions.ChooseFile(): BEGIN");
 		
 		string fileName = soundPath.GetComponentInChildren<Text>().text;
 		StartCoroutine( LoadSound(fileName) );
 		
-		Debug.Log("SettingsItemActions.ChooseFile(): END");
+		//Debug.Log("SettingsItemActions.ChooseFile(): END");
 	}
 	
 	
@@ -36,10 +37,11 @@ public class SettingsItemActions : MonoBehaviour {
 		w = new WWW(fileName);
 		while (!w.isDone)
 		{
-			Debug.Log("LoadSound: still loading '"+fileName+"'");
-			yield return new WaitForSeconds(fileLoadWaitStep);
+			fileLoadTime += fileLoadTimeStep;
+			//Debug.Log("LoadSound: still loading '"+fileName+"'");
+			yield return new WaitForSeconds(fileLoadTimeStep);
 		}
-		Debug.Log("LoadSound: LOAD COMPLETE '"+fileName+"' ");
+		Debug.Log("LoadSound: LOAD COMPLETE '"+fileName+"', "+fileLoadTime+" sec ");
 		
 		clip = w.audioClip;
 		

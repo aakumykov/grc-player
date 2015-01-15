@@ -36,14 +36,6 @@ public class Playlist : MonoBehaviour {
 	{
 		Debug.Log ("Playlist.Awake()");
 		list = new ListItem[listSize];
-		
-		/*for (int i=0; i<listSize; i+=1)
-		{
-			ListItem item = new ListItem(i,"title_"+i,new AudioClip());
-			Debug.Log("Playlist.Awake(), title: "+item.Title());
-			list[i] = item;
-			listIndex = i;
-		}*/
 	}
 
 
