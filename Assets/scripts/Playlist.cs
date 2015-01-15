@@ -110,8 +110,13 @@ public class Playlist : MonoBehaviour {
 	
 	public string Id2Title(int id)
 	{
-		//return list[id].Title();
-		return "bad title";
+		Debug.Log ("Playlist.Id2Title("+id+")");
+		if (null==list[id]) 
+		{
+			Debug.Log("Playlist.Id2Title(): there is no list["+id+"]");
+			return null;
+		}
+		return list[id].Title();
 	}
 	
 	

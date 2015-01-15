@@ -22,7 +22,8 @@ public class MusicScreenActions : MonoBehaviour {
 	{
 		GameObject[] allItems = GameObject.FindGameObjectsWithTag("MusicItem");
 		string title = playlist.Id2Title(0);
-		allItems[0].GetComponent<MusicItemActions>().Fill(0,title);
+		if (null == title) title = "* не установлено *";
+		allItems [0].GetComponent<MusicItemActions> ().Fill (0, title);
 		
 		int dY = 110;
 		int y = -dY;
@@ -37,13 +38,6 @@ public class MusicScreenActions : MonoBehaviour {
 			item.transform.SetParent(transform,false);
 			y -= dY;
 		}
-		
-		/*int i = 1;
-		foreach (GameObject item in allItems)
-		{
-			item.GetComponent<MusicItemActions>().SetTitle(i+"");
-			i += 1;
-		}*/
 	}
 	
 	
