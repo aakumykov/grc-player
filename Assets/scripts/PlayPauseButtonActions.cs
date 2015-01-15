@@ -21,17 +21,36 @@ public class PlayPauseButtonActions : MonoBehaviour {
 
 		if (player.Played())
 		{	
-			label.text = ">";
+			ChangeIcon("pause");
 			animated = false;
 		}
 		else
 		{
-			label.text = "||";
-			animated = false;
+			ChangeIcon("play");
 			AnimatePause();
 		}
 	}
 
+	private void ChangeIcon(string mode)
+	{
+		Debug.Log ("PlayPauseButtonActions.ChangeIcon('"+mode+"')");
+		switch (mode)
+		{
+			case "play":
+				label.text = ">";
+				break;
+			
+			case "pause":
+				label.text = "||";
+				animated = false;
+				break;
+			
+			default:
+				Debug.Log ("PlayPauseButtonActions.ChangeIcon(): unknown mode '"+mode+"'");
+				break;
+		}
+	}
+	
 	public void AnimatePause()
 	{
 		Debug.Log ("AnimatePause");
