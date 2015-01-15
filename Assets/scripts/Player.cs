@@ -5,66 +5,83 @@ using System.Collections;
 public class Player : MonoBehaviour {
 
 	public Playlist playlist;
+	
+	private int currentId = 10000000; //нереальное для листа число как признак начала
 	private AudioSource music;
 	
 	void Awake()
 	{
 		Application.runInBackground = true;
-		
+
 		music = GetComponent<AudioSource>();
 		music.panLevel = 0;
-		
-		
 	}
 	
-	public void Load(int index)
+	public void SetCLip(int id)
 	{
-	
+		Debug.Log("Player.SetCLip()");
+		music.clip = playlist.Id2Clip(id);
 	}
 	
-	public void Play(GameObject mi)
+	public int Object2Id(GameObject musicItem)
 	{
-		Debug.Log("Player.Play()");
-		
-		int id = mi.GetComponent<MusicItemActions>().GetId();
+		Debug.Log("Player.Object2Id()");
+		int id = musicItem.GetComponent<MusicItemActions>().GetId();
+		return id;
+	}
+	
+	public void Play(GameObject musicItem)
+	{
+		int id = Object2Id(musicItem);
 		Debug.Log("Player.Play(), id: "+id);
 		
-		AudioClip clip = playlist.Id2Clip(id);
-		Debug.Log("Player.Play(), clip: "+clip);
+		if (id!=currentId) 
+		{
+			Debug.Log("Player.Play(), changing clip "+currentId+" -> "+id);
+			SetCLip (id);
+		}
+		
+		music.Play();
 	}
 	
-	public void Pause(GameObject mi)
+	public void Pause(GameObject musicItem)
+	{
+		int id = Object2Id(musicItem);
+		Debug.Log("Player.Pause(), id: "+id);
+		if (id==currentId) music.Pause();
+		else
+		{
+			Debug.Log("Player.Pause(): cannot pause other song!");
+		}
+	}
+	
+	public void Stop(GameObject musicItem)
 	{
 		
 	}
 	
-	public void Stop(GameObject mi)
-	{
-		
-	}
-	
-	public void PlayPause(GameObject mi)
+	public void PlayPause(GameObject musicItem)
 	{
 		
 	}
 	
 	
-	public void LinearStart(GameObject mi)
+	public void LinearStart(GameObject musicItem)
 	{
 		Debug.Log("Player.LinearStart()");
 	}
 	
-	public void LinearStop(GameObject mi)
+	public void LinearStop(GameObject musicItem)
 	{
 		Debug.Log("Player.LinearStop()");
 	}
 	
-	public void CurvedStart(GameObject mi)
+	public void CurvedStart(GameObject musicItem)
 	{
 		Debug.Log("Player.CurvedStart()");
 	}
 	
-	public void CurvedStop(GameObject mi)
+	public void CurvedStop(GameObject musicItem)
 	{
 		Debug.Log("Player.CurvedStop()");
 	}
@@ -76,7 +93,7 @@ public class Player : MonoBehaviour {
 		Debug.Log("Player.Seek()");
 	}
 	
-	public void SkipToBegin(GameObject mi)
+	public void SkipToBegin(GameObject musicItem)
 	{
 		Debug.Log("Player.SkipToBegin()");
 	}
