@@ -4,7 +4,7 @@ using System.Collections;
 
 public class PlayPauseButtonActions : MonoBehaviour {
 	
-/*	private Text label;
+	private Text label;
 	private bool animated = false;
 	public float animationPeriod = 0.5f;
 
@@ -52,5 +52,5 @@ public class PlayPauseButtonActions : MonoBehaviour {
 			else label.text = "||";
 			yield return new WaitForSeconds(animationPeriod);
 		}
-	}*/
+	}
 }

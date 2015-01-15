@@ -21,13 +21,21 @@ public class Player : MonoBehaviour {
 	{
 		Debug.Log("Player.SetCLip()");
 		music.clip = playlist.Id2Clip(id);
+		currentId = id;
 	}
 	
-	public int Object2Id(GameObject musicItem)
+	
+	public void PlayPause(GameObject musicItem)
 	{
-		Debug.Log("Player.Object2Id()");
-		int id = musicItem.GetComponent<MusicItemActions>().GetId();
-		return id;
+		Debug.Log ("Player.PlayPause()");
+		if (music.isPlaying)
+		{
+			Pause(musicItem);
+		}
+		else
+		{
+			Play (musicItem);
+		}
 	}
 	
 	public void Play(GameObject musicItem)
@@ -35,7 +43,7 @@ public class Player : MonoBehaviour {
 		int id = Object2Id(musicItem);
 		Debug.Log("Player.Play(), id: "+id);
 		
-		if (id!=currentId) 
+		if (id != currentId) 
 		{
 			Debug.Log("Player.Play(), changing clip "+currentId+" -> "+id);
 			SetCLip (id);
@@ -48,7 +56,11 @@ public class Player : MonoBehaviour {
 	{
 		int id = Object2Id(musicItem);
 		Debug.Log("Player.Pause(), id: "+id);
-		if (id==currentId) music.Pause();
+		
+		if (id==currentId) 
+		{
+			music.Pause();
+		}
 		else
 		{
 			Debug.Log("Player.Pause(): cannot pause other song!");
@@ -59,12 +71,7 @@ public class Player : MonoBehaviour {
 	{
 		
 	}
-	
-	public void PlayPause(GameObject musicItem)
-	{
-		
-	}
-	
+
 	
 	public void LinearStart(GameObject musicItem)
 	{
@@ -115,4 +122,11 @@ public class Player : MonoBehaviour {
 	
 	}
 
+	
+	public int Object2Id(GameObject musicItem)
+	{
+		Debug.Log("Player.Object2Id()");
+		int id = musicItem.GetComponent<MusicItemActions>().GetId();
+		return id;
+	}
 }
