@@ -111,6 +111,13 @@ public class Player : MonoBehaviour {
 		
 	}
 	
+	
+	public bool Played()
+	{
+		Debug.Log ("Player.Played()");
+		return music.isPlaying;
+	}
+	
 	public float GetCurrentTime()
 	{
 		Debug.Log ("Player.GetCurrentTime()");

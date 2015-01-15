@@ -4,32 +4,31 @@ using System.Collections;
 
 public class PlayPauseButtonActions : MonoBehaviour {
 	
+	public Player player;
+	public float animationPeriod = 0.5f;
+	
 	private Text label;
 	private bool animated = false;
-	public float animationPeriod = 0.5f;
 
 	void Start ()
 	{
 		label = GetComponentInChildren<Text> ();
 	}
 
-	public void ChangeIcon(string mode)
+	public void ToggleIcon()
 	{
-		Debug.Log ("ToggleIcon");
+		Debug.Log ("PlayPauseButtonActions.ToggleIcon()");
 
-		if ("play"==mode)
+		if (player.Played())
 		{	
 			label.text = ">";
 			animated = false;
 		}
-		else if ("pause"==mode)
+		else
 		{
 			label.text = "||";
 			animated = false;
-		}
-		else
-		{
-			Debug.Log ("ChangeIcon, invalid mode '" + mode + "'");
+			AnimatePause();
 		}
 	}
 
