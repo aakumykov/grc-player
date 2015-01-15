@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class BOXActions : MonoBehaviour {
@@ -20,7 +21,9 @@ public class BOXActions : MonoBehaviour {
 				musicScreen.enabled = false;
 				playlistScreen.enabled = true;
 				break;
+
 			default:
+				musicScreen.GetComponent<MusicScreenActions>().GenerateList();
 				musicScreen.enabled = true;
 				playlistScreen.enabled = false;
 				break;

@@ -15,16 +15,23 @@ public class MusicScreenActions : MonoBehaviour {
 	
 	void Start()
 	{
-		DisplayList();
+		GenerateList();
 	}
 
-	public void DisplayList()
+	public void GenerateList()
 	{
 		GameObject[] allItems = GameObject.FindGameObjectsWithTag("MusicItem");
 		string title = playlist.Id2Title(0);
 		if (null == title) title = "* не установлено *";
 		allItems [0].GetComponent<MusicItemActions> ().Fill (0, title);
-		
+
+		// Удаляю, начиная со второго
+		for (int i=1; i<allItems.Length; i+=1)
+		{
+			Destroy(allItems[i]);
+		}
+
+		// Создаю новый
 		int dY = 110;
 		int y = -dY;
 		for (int i=1; i<playlist.Size(); i+=1)
