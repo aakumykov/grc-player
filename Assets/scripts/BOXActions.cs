@@ -6,6 +6,7 @@ public class BOXActions : MonoBehaviour {
 
 	public Canvas musicScreen;
 	public Canvas playlistScreen;
+	public Canvas fileBrowser;
 	
 	void Awake()
 	{
