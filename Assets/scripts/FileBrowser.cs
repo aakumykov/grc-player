@@ -43,6 +43,8 @@ public class FSFilter
 public class FileBrowser : MonoBehaviour {
 
 	public Player player;
+	public string path = "c:/";
+	public string filter = "";
 
 	public FBTitle fbTitle;
 	public FBList fbList;
@@ -60,16 +62,46 @@ public class FileBrowser : MonoBehaviour {
 	void Start()
 	{
 		fbTitle.SetTitle ("Путь:");
+
+		ShowDirectory(path);
 	}
 
-	public void ShowDirectory(string path, string filter="")
+
+	public void ShowDirectory(string path, string filter)
 	{
-		Debug.Log ("FileBrowser.ShowDirectory()");
+		Debug.Log ("FileBrowser.ShowDirectory('"+path+"','"+filter+"')");
 
 		string[] wetList = fsReader.GetList (path);
 		string[] strictList = fsFilter.ApplyFilter (wetList);
 
 		DisplayList (strictList);
+	}
+
+	public void ShowDirectory(string path)
+	{
+		Debug.Log ("FileBrowser.ShowDirectory('"+path+"')");
+		ShowDirectory (path, "");
+	}
+
+
+	private void DisplayList(string[] list)
+	{
+		Debug.Log ("FileBrowser.DisplayList()");
+
+		GameObject[] listItems = GameObject.FindGameObjectsWithTag ("FBListItem");
+		//Debug.Log ("listItems.Length: "+listItems.Length);
+		GameObject initialListItem = listItems[0];
+
+		for(int i=0; i<listItems.Length; i+=1)
+		{
+			//Debug.Log(i+", "+listItems[i]);
+			Destroy(listItems[i]);
+		}
+
+		foreach (string name in list)
+		{
+			Debug.Log(name);
+		}
 	}
 
 
@@ -84,10 +116,7 @@ public class FileBrowser : MonoBehaviour {
 	}
 
 
-	private void DisplayList(string[] list)
-	{
-		Debug.Log ("FileBrowser.DisplayList()");
-	}
+
 
 
 }
