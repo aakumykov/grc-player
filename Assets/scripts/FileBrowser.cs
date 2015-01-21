@@ -14,7 +14,8 @@ public class FSReader
 	public string[] GetList(string path)
 	{
 		Debug.Log ("FSReader.GetList('"+path+"')");
-		return new string[1];
+		string[] list = Directory.GetFileSystemEntries (path);
+		return list;
 	}
 }
 
@@ -29,13 +30,12 @@ public class FSFilter
 	public string[] ApplyFilter(string[] list, string pattern)
 	{
 		Debug.Log ("FSFilter.ApplyFilter()");
-		return new string[1];
+		return list;
 	}
 
 	public string[] ApplyFilter(string[] list)
 	{
-		string[] list2 = ApplyFilter (list, "");
-		return list2;
+		return ApplyFilter (list);
 	}
 }
 
@@ -72,7 +72,8 @@ public class FileBrowser : MonoBehaviour {
 		Debug.Log ("FileBrowser.ShowDirectory('"+path+"','"+filter+"')");
 
 		string[] wetList = fsReader.GetList (path);
-		string[] strictList = fsFilter.ApplyFilter (wetList);
+		//string[] strictList = fsFilter.ApplyFilter (wetList);
+		string[] strictList = wetList;
 
 		DisplayList (strictList);
 	}
@@ -88,19 +89,33 @@ public class FileBrowser : MonoBehaviour {
 	{
 		Debug.Log ("FileBrowser.DisplayList()");
 
+		// Получение объекта
 		GameObject[] listItems = GameObject.FindGameObjectsWithTag ("FBListItem");
-		//Debug.Log ("listItems.Length: "+listItems.Length);
 		GameObject initialListItem = listItems[0];
 
-		for(int i=0; i<listItems.Length; i+=1)
+		// Удаление старого списка, кроме 1-ого элемента
+		for(int i=1; i<listItems.Length; i+=1)
 		{
 			//Debug.Log(i+", "+listItems[i]);
-			Destroy(listItems[i]);
+			//Destroy(listItems[i]);
 		}
 
-		foreach (string name in list)
+		// Создание нового списка
+		initialListItem.GetComponent<FBListItem> ().SetName (list [0]);
+
+		int y = -30;
+		int dY = 30;
+		for (int i=1; i<list.Length; i+=1)
 		{
-			Debug.Log(name);
+			string name = list[i];
+			GameObject newItem = Instantiate(
+				initialListItem,
+				new Vector3(0,y,0),
+				new Quaternion()
+				) as GameObject;
+			newItem.GetComponent<FBListItem>().SetName(name);
+			newItem.transform.SetParent(fbList.transform,false);
+			y -= dY;
 		}
 	}
 

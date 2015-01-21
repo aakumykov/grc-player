@@ -1,15 +1,25 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class FBListItem : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
+	private string fileName;
+	private Text text;
+
+	void Awake()
+	{
+		text = GetComponentInChildren<Text> ();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+
+	public void SetName(string name)
+	{
+		fileName = name;
+		text.text = name;
+	}
+
+	public string GetName()
+	{
+		return fileName;
 	}
 }
