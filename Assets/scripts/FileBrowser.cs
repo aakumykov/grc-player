@@ -43,17 +43,23 @@ public class FSFilter
 public class FileBrowser : MonoBehaviour {
 
 	public Player player;
-	//public ;
-	//public ;
-	//public ;
+
+	public FBTitle fbTitle;
+	public FBList fbList;
 
 	private FSReader fsReader;
 	private FSFilter fsFilter;
 
 	void Awake()
 	{
+		Debug.Log ("FileBrowser.Awake()");
 		fsReader = new FSReader ();
 		fsFilter = new FSFilter();
+	}
+
+	void Start()
+	{
+		fbTitle.SetTitle ("Путь:");
 	}
 
 	public void ShowDirectory(string path, string filter="")
@@ -66,10 +72,24 @@ public class FileBrowser : MonoBehaviour {
 		DisplayList (strictList);
 	}
 
+
+	public void Ok()
+	{
+		Debug.Log ("FileBrowser.Ok()");
+	}
+
+	public void Cancel()
+	{
+		Debug.Log ("FileBrowser.Cancel()");
+	}
+
+
 	private void DisplayList(string[] list)
 	{
 		Debug.Log ("FileBrowser.DisplayList()");
 	}
+
+
 }
 
 

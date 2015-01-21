@@ -1,8 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\scripts\FileBrowser.cs">
     <Files>
-      <File FileName="Assets\scripts\FileBrowser.cs" Line="46" Column="4" />
+      <File FileName="Assets\scripts\FileBrowser.cs" Line="62" Column="26" />
+      <File FileName="Assets\scripts\FBTitle.cs" Line="11" Column="33" />
+      <File FileName="Assets\scripts\BOXActions.cs" Line="29" Column="13" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
