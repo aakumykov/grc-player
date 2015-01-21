@@ -43,6 +43,10 @@ public class FSFilter
 public class FileBrowser : MonoBehaviour {
 
 	public Player player;
+	//public ;
+	//public ;
+	//public ;
+
 	private FSReader fsReader;
 	private FSFilter fsFilter;
 
