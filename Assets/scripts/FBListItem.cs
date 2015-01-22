@@ -20,6 +20,12 @@ public class FBListItem : MonoBehaviour {
 
 	public string GetName()
 	{
+		Debug.Log (fileName);
 		return fileName;
+	}
+
+	public void ClickTest()
+	{
+		Debug.Log (fileName);
 	}
 }
