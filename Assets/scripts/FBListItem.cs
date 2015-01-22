@@ -4,6 +4,8 @@ using System.Collections;
 
 public class FBListItem : MonoBehaviour {
 
+	public FileBrowser fileBrowser;
+
 	private string fileName;
 	private Text text;
 
@@ -24,8 +26,5 @@ public class FBListItem : MonoBehaviour {
 		return fileName;
 	}
 
-	public void ClickTest()
-	{
-		Debug.Log (fileName);
-	}
+
 }

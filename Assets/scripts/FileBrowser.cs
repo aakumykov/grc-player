@@ -14,7 +14,7 @@ public class FSReader
 	public string[] GetList(string path)
 	{
 		Debug.Log ("FSReader.GetList('"+path+"')");
-		string[] list = Directory.GetFileSystemEntries (path);
+		string[] list = Directory.GetFileSystemEntries (path,"*.OgG");
 		return list;
 	}
 }
