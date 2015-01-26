@@ -52,6 +52,8 @@ public class PlaylistItemActions : MonoBehaviour {
 		Debug.Log ("ChooseFileStart(), filePath: " + filePath);
 
 		playlistScreen.Appear ();
+
+		StartCoroutine( LoadSound(filePath) );
 	}
 
 	
