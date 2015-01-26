@@ -42,15 +42,16 @@ public class FSFilter
 
 public class FileBrowser : MonoBehaviour {
 
+	public BOXActions box;
 	public Player player;
-	public string path = "c:/";
-	public string filter = "";
-
 	public FBTitle fbTitle;
 	public FBList fbList;
-
+	
 	private FSReader fsReader;
 	private FSFilter fsFilter;
+
+	public string path = "c:/";
+	public string filter = "";
 	
 	private bool isDone = false;
 	private string fileName;
@@ -140,10 +141,29 @@ public class FileBrowser : MonoBehaviour {
 	{
 		//Debug.Log ("FileBrowser.IsFileSelected()");
 		return isDone;
-
 	}
 
+	public void Appear()
+	{
+		Debug.Log ("FileBrowser.Appear()");
+		isDone = false;
+		box.ChangeScreen ("files");
+	}
 
+	public void FilePick(string path)
+	{
+		Debug.Log ("FileBrowser.FilePick('" + path + "')");
+
+		filePath = path;
+		fileName = path;
+		isDone = true;
+	}
+
+	public string File()
+	{
+		Debug.Log ("FileBrowser.Raise()");
+		return filePath;
+	}
 }
 
 

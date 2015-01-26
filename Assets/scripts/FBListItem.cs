@@ -26,5 +26,9 @@ public class FBListItem : MonoBehaviour {
 		return fileName;
 	}
 
-
+	public void FilePick()
+	{
+		Debug.Log("FBListItem.FilePick()");
+		fileBrowser.FilePick (fileName);
+	}
 }

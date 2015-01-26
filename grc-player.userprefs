@@ -1,11 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\scripts\FileBrowser.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\scripts\PlaylistItemActions.cs">
     <Files>
-      <File FileName="Assets\scripts\FileBrowser.cs" Line="16" Column="46" />
-      <File FileName="Assets\scripts\FBTitle.cs" Line="1" Column="1" />
-      <File FileName="Assets\scripts\BOXActions.cs" Line="1" Column="1" />
-      <File FileName="Assets\scripts\FBListItem.cs" Line="1" Column="1" />
+      <File FileName="Assets\scripts\FileBrowser.cs" Line="148" Column="19" />
+      <File FileName="Assets\scripts\FBListItem.cs" Line="32" Column="23" />
+      <File FileName="Assets\scripts\PlaylistItemActions.cs" Line="66" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

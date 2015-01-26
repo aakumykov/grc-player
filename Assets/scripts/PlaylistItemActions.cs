@@ -11,6 +11,7 @@ public class PlaylistItemActions : MonoBehaviour {
 	public InputField soundPath;
 	public Button soundSelectButtton;
 	
+	private string filePath;
 	private AudioClip clip;
 	private WWW w;
 	private float fileLoadTime = 0f;
@@ -23,20 +24,20 @@ public class PlaylistItemActions : MonoBehaviour {
 	
 	public void ChooseFile()
 	{
-		//Debug.Log("PlaylistItemActions.ChooseFile(): BEGIN");
+		Debug.Log("PlaylistItemActions.ChooseFile()");
 		
-		string fileName = soundPath.GetComponentInChildren<Text>().text;
+		//string fileName = soundPath.GetComponentInChildren<Text>().text;
 		//StartCoroutine( LoadSound(fileName) );
 
-		StartCoroutine (PickFile ());
-		
-		//Debug.Log("PlaylistItemActions.ChooseFile(): END");
+		StartCoroutine (ChooseFileStart ());
 	}
 
 
-	IEnumerator PickFile()
+	IEnumerator ChooseFileStart()
 	{
-		Debug.Log("PlaylistItemActions.PickFile()");
+		Debug.Log("PlaylistItemActions.ChooseFileStart()");
+
+		fileBrowser.Appear ();
 
 		while ( ! fileBrowser.IsDone() )
 		{
@@ -44,6 +45,9 @@ public class PlaylistItemActions : MonoBehaviour {
 			yield return new WaitForSeconds(1);
 		}
 		Debug.Log("FILE IS SELECTED !");
+
+		filePath = fileBrowser.File ();
+		Debug.Log ("filePath: " + filePath);
 	}
 
 	
