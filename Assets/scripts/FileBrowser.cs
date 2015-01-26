@@ -52,8 +52,9 @@ public class FileBrowser : MonoBehaviour {
 	private FSReader fsReader;
 	private FSFilter fsFilter;
 	
-	private int newSerialNumber = 0;
-	private int oldSerialNumber = 0;
+	private bool isDone = false;
+	private string fileName;
+	private string filePath;
 
 	void Awake()
 	{
@@ -138,7 +139,7 @@ public class FileBrowser : MonoBehaviour {
 	public bool IsDone()
 	{
 		//Debug.Log ("FileBrowser.IsFileSelected()");
-		return (newSerialNumber != oldSerialNumber);
+		return isDone;
 
 	}
 
