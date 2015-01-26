@@ -3,8 +3,10 @@ using System.Collections;
 
 public class PlaylistScreenActions : MonoBehaviour {
 
+	public BOXActions box;
 	public Playlist playlist;
 	public GameObject playlistItem;
+
 	private int y = -40;
 	private int dY = 40;
 
@@ -21,5 +23,11 @@ public class PlaylistScreenActions : MonoBehaviour {
 		item.transform.SetParent (transform, false);
 
 		y -= dY;
+	}
+
+	public void Appear()
+	{
+		Debug.Log ("PlaylistScreenActions.Appear()");
+		box.ChangeScreen ("playlist");
 	}
 }

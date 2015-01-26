@@ -161,7 +161,7 @@ public class FileBrowser : MonoBehaviour {
 
 	public string File()
 	{
-		Debug.Log ("FileBrowser.Raise()");
+		Debug.Log ("FileBrowser.File()");
 		return filePath;
 	}
 }

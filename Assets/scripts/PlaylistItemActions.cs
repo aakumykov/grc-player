@@ -4,13 +4,15 @@ using System.Collections;
 
 public class PlaylistItemActions : MonoBehaviour {
 
-	public Playlist playlist;
+	public PlaylistScreenActions playlistScreen;
 	public FileBrowser fileBrowser;
 
 	public GameObject soundStatus;
 	public InputField soundPath;
 	public Button soundSelectButtton;
-	
+
+	public Playlist playlist;
+
 	private string filePath;
 	private AudioClip clip;
 	private WWW w;
@@ -41,13 +43,15 @@ public class PlaylistItemActions : MonoBehaviour {
 
 		while ( ! fileBrowser.IsDone() )
 		{
-			Debug.Log("file not selected yet");
+			Debug.Log("ChooseFileStart(): file not selected yet");
 			yield return new WaitForSeconds(1);
 		}
-		Debug.Log("FILE IS SELECTED !");
+		Debug.Log("ChooseFileStart(): FILE IS SELECTED !");
 
 		filePath = fileBrowser.File ();
-		Debug.Log ("filePath: " + filePath);
+		Debug.Log ("ChooseFileStart(), filePath: " + filePath);
+
+		playlistScreen.Appear ();
 	}
 
 	
