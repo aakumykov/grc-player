@@ -43,14 +43,15 @@ public class PlaylistItemActions : MonoBehaviour {
 
 		while ( ! fileBrowser.IsDone() )
 		{
-			Debug.Log("ChooseFileStart(): file not selected yet");
+			//Debug.Log("ChooseFileStart(): file not selected yet");
 			yield return new WaitForSeconds(1);
 		}
-		Debug.Log("ChooseFileStart(): FILE IS SELECTED !");
+		Debug.Log("ChooseFileStart(): file is selected");
 
 		filePath = fileBrowser.File ();
 		Debug.Log ("ChooseFileStart(), filePath: " + filePath);
 
+		SetSoundPath (filePath);
 		playlistScreen.Appear ();
 
 		StartCoroutine( LoadSound(filePath) );
@@ -73,5 +74,11 @@ public class PlaylistItemActions : MonoBehaviour {
 		clip = w.audioClip;
 		
 		playlist.Add (fileName,clip);
+	}
+
+	public void SetSoundPath(string path)
+	{
+		Debug.Log ("PlaylistItemActions.SetSoundPath('" + path + "')");
+		soundPath.text = path;
 	}
 }
