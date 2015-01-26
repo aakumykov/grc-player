@@ -5,6 +5,8 @@ using System.Collections;
 public class PlaylistItemActions : MonoBehaviour {
 
 	public Playlist playlist;
+	public FileBrowser fileBrowser;
+
 	public GameObject soundStatus;
 	public InputField soundPath;
 	public Button soundSelectButtton;

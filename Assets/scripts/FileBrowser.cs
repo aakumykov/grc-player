@@ -51,6 +51,9 @@ public class FileBrowser : MonoBehaviour {
 
 	private FSReader fsReader;
 	private FSFilter fsFilter;
+	
+	private int newSerialNumber = 0;
+	private int oldSerialNumber = 0;
 
 	void Awake()
 	{
@@ -130,8 +133,11 @@ public class FileBrowser : MonoBehaviour {
 		Debug.Log ("FileBrowser.Cancel()");
 	}
 
-
-
+	public bool IsFileSelected()
+	{
+		Debug.Log ("FileBrowser.IsFileSelected()");
+		return oldSerialNumber == newSerialNumber;
+	}
 
 
 }
