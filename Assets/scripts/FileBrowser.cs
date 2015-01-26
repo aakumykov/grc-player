@@ -126,6 +126,8 @@ public class FileBrowser : MonoBehaviour {
 	public void Ok()
 	{
 		Debug.Log ("FileBrowser.Ok()");
+		//newSerialNumber = 2;
+		//oldSerialNumber = 1;
 	}
 
 	public void Cancel()
@@ -133,10 +135,11 @@ public class FileBrowser : MonoBehaviour {
 		Debug.Log ("FileBrowser.Cancel()");
 	}
 
-	public bool IsFileSelected()
+	public bool IsDone()
 	{
-		Debug.Log ("FileBrowser.IsFileSelected()");
-		return oldSerialNumber == newSerialNumber;
+		//Debug.Log ("FileBrowser.IsFileSelected()");
+		return (newSerialNumber != oldSerialNumber);
+
 	}
 
 

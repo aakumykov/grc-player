@@ -18,19 +18,34 @@ public class PlaylistItemActions : MonoBehaviour {
 	
 	void Awake()
 	{
-		//Debug.Log ("SettingsItemActions.Awake()");
+		//Debug.Log ("PlaylistItemActions.Awake()");
 	}
 	
 	public void ChooseFile()
 	{
-		//Debug.Log("SettingsItemActions.ChooseFile(): BEGIN");
+		//Debug.Log("PlaylistItemActions.ChooseFile(): BEGIN");
 		
 		string fileName = soundPath.GetComponentInChildren<Text>().text;
-		StartCoroutine( LoadSound(fileName) );
+		//StartCoroutine( LoadSound(fileName) );
+
+		StartCoroutine (PickFile ());
 		
-		//Debug.Log("SettingsItemActions.ChooseFile(): END");
+		//Debug.Log("PlaylistItemActions.ChooseFile(): END");
 	}
-	
+
+
+	IEnumerator PickFile()
+	{
+		Debug.Log("PlaylistItemActions.PickFile()");
+
+		while ( ! fileBrowser.IsDone() )
+		{
+			Debug.Log("file not selected yet");
+			yield return new WaitForSeconds(1);
+		}
+		Debug.Log("FILE IS SELECTED !");
+	}
+
 	
 	IEnumerator LoadSound(string fileName)
 	{
