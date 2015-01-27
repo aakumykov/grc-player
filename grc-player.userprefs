@@ -1,5 +1,6 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+<<<<<<< HEAD
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\scripts\Player.cs">
     <Files>
       <File FileName="Assets\scripts\Playlist.cs" Line="113" Column="3" />
@@ -7,6 +8,13 @@
       <File FileName="Assets\scripts\FileBrowser.cs" Line="150" Column="41" />
       <File FileName="Assets\scripts\MusicScreenActions.cs" Line="37" Column="20" />
       <File FileName="Assets\scripts\Player.cs" Line="33" Column="3" />
+=======
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\scripts\PlaylistScreenActions.cs">
+    <Files>
+      <File FileName="Assets\scripts\PlaylistItemActions.cs" Line="1" Column="1" />
+      <File FileName="Assets\scripts\PlaylistScreenActions.cs" Line="1" Column="1" />
+      <File FileName="Assets\BUGS.txt" Line="1" Column="1" />
+>>>>>>> 9eb471c418ee5664adb87fcffb680ac0a27ef1bd
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
