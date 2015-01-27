@@ -42,6 +42,8 @@ public class Playlist : MonoBehaviour {
 	public void Add(string title, AudioClip clip)
 	{
 		Debug.Log ("Playlist.Add("+listIndex+", '"+title+"', '"+clip+"')");
+		Debug.Log ("Playlist.Add(), clip: "+clip);
+		Debug.Log ("Playlist.Add(), clip length: "+clip.length);
 
 		list[listIndex] = new ListItem(
 								listIndex,

@@ -1,8 +1,16 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="..\New Unity Project\Assets\ImageActions.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\scripts\PlaylistItemActions.cs">
     <Files>
-      <File FileName="..\New Unity Project\Assets\ImageActions.cs" Line="12" Column="26" />
+      <File FileName="Assets\scripts\Player.cs" Line="146" Column="36" />
+      <File FileName="Assets\CanvasActions.cs" Line="14" Column="34" />
+      <File FileName="Assets\scripts\BOXActions.cs" Line="15" Column="3" />
+      <File FileName="Assets\scripts\Playlist.cs" Line="41" Column="2" />
+      <File FileName="Assets\scripts\FBTitle.cs" Line="11" Column="44" />
+      <File FileName="Assets\scripts\MusicItemActions.cs" Line="65" Column="19" />
+      <File FileName="Assets\scripts\MusicScreenActions.cs" Line="21" Column="28" />
+      <File FileName="Assets\scripts\PlaylistItemActions.cs" Line="67" Column="24" />
+      <File FileName="Assets\scripts\FileBrowser.cs" Line="12" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

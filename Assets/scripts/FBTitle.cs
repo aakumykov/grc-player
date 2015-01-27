@@ -9,7 +9,6 @@ public class FBTitle : MonoBehaviour {
 	void Awake()
 	{
 		title = GetComponentInChildren <Text> ();
-		Debug.Log (title);
 	}
 
 	public void SetTitle(string aTitle)

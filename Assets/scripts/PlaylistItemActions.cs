@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.IO;
 
 public class PlaylistItemActions : MonoBehaviour {
 
@@ -62,11 +63,14 @@ public class PlaylistItemActions : MonoBehaviour {
 	{
 		Debug.Log("PlaylistItemActions.LoadSound('"+fileName+"')");
 		
+		fileName = "file:///" + fileName;
+		Debug.Log (fileName);
+
 		w = new WWW(fileName);
 		while (!w.isDone)
 		{
 			//fileLoadTime += fileLoadTimeStep;
-			Debug.Log("LoadSound: still loading '"+fileName+"'");
+			//Debug.Log("LoadSound: still loading '"+fileName+"'");
 			yield return new WaitForSeconds(fileLoadTimeStep);
 		}
 		//Debug.Log("PlaylistItemActions.LoadSound: LOAD COMPLETE '"+fileName+"', "+fileLoadTime+" sec ");
@@ -74,6 +78,8 @@ public class PlaylistItemActions : MonoBehaviour {
 		
 		clip = w.audioClip;
 		Debug.Log ("PlaylistItemActions.LoadSound(), clip: "+clip);
+		Debug.Log ("PlaylistItemActions.LoadSound(), clip length: "+clip.length);
+		Debug.Log ("PlaylistItemActions.LoadSound(), clip frequency: "+clip.frequency);
 		
 		playlist.Add (fileName,clip);
 	}

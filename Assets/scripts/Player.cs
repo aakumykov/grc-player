@@ -11,9 +11,14 @@ public class Player : MonoBehaviour {
 	
 	void Awake()
 	{
+		Debug.Log ("Player.Awake()");
+
 		Application.runInBackground = true;
 
 		music = GetComponent<AudioSource>();
+		Debug.Log ("Player.Awake(), AudioSource component: "+music);
+		Debug.Log ("Player.Awake(), AudioSource clip: "+music.clip);
+
 		music.panLevel = 0;
 	}
 	
@@ -23,7 +28,9 @@ public class Player : MonoBehaviour {
 
 		AudioClip clip = playlist.Id2Clip(id);
 		Debug.Log("Player.SetCLip(), clip: "+clip);
+		Debug.Log("Player.SetCLip(), clip length: "+clip.length);
 
+		Debug.Log("Player.SetCLip(), AudioSource component: "+music);
 		music.clip = clip;
 		currentId = id;
 	}
@@ -129,7 +136,16 @@ public class Player : MonoBehaviour {
 	public bool Played()
 	{
 		Debug.Log ("Player.Played()");
-		return music.isPlaying;
+		if (music.isPlaying)
+		{
+			Debug.Log("Player.Played(): true");
+			return true;
+		}
+		else
+		{
+			Debug.Log ("Player.Played(): false");
+			return false;
+		}
 	}
 	
 	public float GetCurrentTime()
@@ -146,7 +162,7 @@ public class Player : MonoBehaviour {
 	
 	public int Object2Id(GameObject musicItem)
 	{
-		Debug.Log("Player.Object2Id()");
+		Debug.Log("Player.Object2Id("+musicItem+")");
 		int id = musicItem.GetComponent<MusicItemActions>().GetId();
 		return id;
 	}
