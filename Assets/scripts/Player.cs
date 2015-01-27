@@ -49,7 +49,7 @@ public class Player : MonoBehaviour {
 		
 		if (id != currentId) 
 		{
-			Debug.Log("Player.Play(), changing clip from "+currentId+" to "+id);
+			Debug.Log("Player.Play(), changing clip from id "+currentId+" to id "+id);
 			SetCLip (id);
 		}
 		
