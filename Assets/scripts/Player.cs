@@ -19,8 +19,12 @@ public class Player : MonoBehaviour {
 	
 	public void SetCLip(int id)
 	{
-		Debug.Log("Player.SetCLip()");
-		music.clip = playlist.Id2Clip(id);
+		Debug.Log("Player.SetCLip("+id+")");
+
+		AudioClip clip = playlist.Id2Clip(id);
+		Debug.Log("Player.SetCLip(), clip: "+clip);
+
+		music.clip = clip;
 		currentId = id;
 	}
 	
@@ -45,7 +49,7 @@ public class Player : MonoBehaviour {
 		
 		if (id != currentId) 
 		{
-			Debug.Log("Player.Play(), changing clip "+currentId+" -> "+id);
+			Debug.Log("Player.Play(), changing clip from "+currentId+" to "+id);
 			SetCLip (id);
 		}
 		
@@ -69,7 +73,17 @@ public class Player : MonoBehaviour {
 	
 	public void Stop(GameObject musicItem)
 	{
-		
+		int id = Object2Id(musicItem);
+		Debug.Log ("Player.Stop(" + id + ")");
+
+		if (id==currentId)
+		{
+			music.Stop();
+		}
+		else
+		{
+			Debug.Log("Player.Stop(): cannot stop other's id ("+currentId+")");
+		}
 	}
 
 	

@@ -59,16 +59,14 @@ public class FileBrowser : MonoBehaviour {
 
 	void Awake()
 	{
-		Debug.Log ("FileBrowser.Awake()");
+		//Debug.Log ("FileBrowser.Awake()");
 		fsReader = new FSReader ();
 		fsFilter = new FSFilter();
 	}
 
 	void Start()
 	{
-		fbTitle.SetTitle ("Путь:");
 
-		ShowDirectory(path);
 	}
 
 
@@ -146,7 +144,12 @@ public class FileBrowser : MonoBehaviour {
 	public void Appear()
 	{
 		Debug.Log ("FileBrowser.Appear()");
+
 		isDone = false;
+
+		fbTitle.SetTitle ("Каталог \""+path+"\"");
+		ShowDirectory(path);
+
 		box.ChangeScreen ("files");
 	}
 

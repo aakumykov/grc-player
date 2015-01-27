@@ -46,10 +46,10 @@ public class PlaylistItemActions : MonoBehaviour {
 			//Debug.Log("ChooseFileStart(): file not selected yet");
 			yield return new WaitForSeconds(1);
 		}
-		Debug.Log("ChooseFileStart(): file is selected");
+		Debug.Log("PlaylistItemActions.ChooseFileStart(): file is selected");
 
 		filePath = fileBrowser.File ();
-		Debug.Log ("ChooseFileStart(), filePath: " + filePath);
+		Debug.Log ("PlaylistItemActions.ChooseFileStart(), filePath: " + filePath);
 
 		SetSoundPath (filePath);
 		playlistScreen.Appear ();
@@ -60,18 +60,20 @@ public class PlaylistItemActions : MonoBehaviour {
 	
 	IEnumerator LoadSound(string fileName)
 	{
-		Debug.Log("LoadSound('"+fileName+"')");
+		Debug.Log("PlaylistItemActions.LoadSound('"+fileName+"')");
 		
 		w = new WWW(fileName);
 		while (!w.isDone)
 		{
-			fileLoadTime += fileLoadTimeStep;
-			//Debug.Log("LoadSound: still loading '"+fileName+"'");
+			//fileLoadTime += fileLoadTimeStep;
+			Debug.Log("LoadSound: still loading '"+fileName+"'");
 			yield return new WaitForSeconds(fileLoadTimeStep);
 		}
-		Debug.Log("LoadSound: LOAD COMPLETE '"+fileName+"', "+fileLoadTime+" sec ");
+		//Debug.Log("PlaylistItemActions.LoadSound: LOAD COMPLETE '"+fileName+"', "+fileLoadTime+" sec ");
+		Debug.Log("PlaylistItemActions.LoadSound(), COMPLETE '"+fileName+"'");
 		
 		clip = w.audioClip;
+		Debug.Log ("PlaylistItemActions.LoadSound(), clip: "+clip);
 		
 		playlist.Add (fileName,clip);
 	}
