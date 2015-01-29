@@ -52,7 +52,8 @@ public class FileBrowser : MonoBehaviour {
 
 	public string path = "c:/";
 	public string filter = "";
-	
+
+	private string currentPath = "";
 	private bool isDone = false;
 	private string fileName;
 	private string filePath;
@@ -74,11 +75,17 @@ public class FileBrowser : MonoBehaviour {
 	{
 		Debug.Log ("FileBrowser.ShowDirectory('"+path+"','"+filter+"')");
 
-		string[] wetList = fsReader.GetList (path);
+		if (""!=currentPath) currentPath = currentPath + "/" ;
+		string fullPath = currentPath + path;
+		Debug.Log ("FileBrowser.ShowDirectory(), fullPath: '"+fullPath);
+
+		string[] wetList = fsReader.GetList (fullPath);
 		//string[] strictList = fsFilter.ApplyFilter (wetList);
 		string[] strictList = wetList;
 
 		DisplayList (strictList);
+
+		currentPath = path;
 	}
 
 	public void ShowDirectory(string path)
@@ -104,7 +111,6 @@ public class FileBrowser : MonoBehaviour {
 		}
 
 		// Создание нового списка
-		//initialListItem.GetComponent<FBListItem> ().SetName (list [0]);
 		initialListItem.GetComponent<FBListItem> ().SetName ("..");
 
 		int y = -30;
@@ -159,9 +165,16 @@ public class FileBrowser : MonoBehaviour {
 	{
 		Debug.Log ("FileBrowser.FilePick('" + path + "')");
 
-		filePath = path;
-		fileName = path;
-		isDone = true;
+		if (".."==path)
+		{
+			ShowDirectory(path);
+		}
+		else
+		{
+			filePath = path;
+			fileName = path;
+			isDone = true;
+		}
 	}
 
 	public string File()
