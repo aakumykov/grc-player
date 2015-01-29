@@ -6,6 +6,7 @@ public class FBListItem : MonoBehaviour {
 
 	public FileBrowser fileBrowser;
 
+	private int id;
 	private string fileName;
 	private Text text;
 

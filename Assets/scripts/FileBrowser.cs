@@ -99,16 +99,17 @@ public class FileBrowser : MonoBehaviour {
 		// Удаление старого списка, кроме 1-ого элемента
 		for(int i=1; i<listItems.Length; i+=1)
 		{
-			//Debug.Log(i+", "+listItems[i]);
-			//Destroy(listItems[i]);
+			Debug.Log("FileBrowser.DisplayList(), удаляю элемент "+i);
+			Destroy(listItems[i]);
 		}
 
 		// Создание нового списка
-		initialListItem.GetComponent<FBListItem> ().SetName (list [0]);
+		//initialListItem.GetComponent<FBListItem> ().SetName (list [0]);
+		initialListItem.GetComponent<FBListItem> ().SetName ("..");
 
 		int y = -30;
 		int dY = 30;
-		for (int i=1; i<list.Length; i+=1)
+		for (int i=0; i<list.Length; i+=1)
 		{
 			string name = list[i];
 			GameObject newItem = Instantiate(
@@ -133,6 +134,7 @@ public class FileBrowser : MonoBehaviour {
 	public void Cancel()
 	{
 		Debug.Log ("FileBrowser.Cancel()");
+		box.ChangeScreen ("playlist");
 	}
 
 	public bool IsDone()
