@@ -7,6 +7,7 @@ public class FBListItem : MonoBehaviour {
 	public FileBrowser fileBrowser;
 
 	private int id;
+	private bool isDir;
 	private string fileName;
 	private Text text;
 
@@ -15,8 +16,9 @@ public class FBListItem : MonoBehaviour {
 		text = GetComponentInChildren<Text> ();
 	}
 
-	public void SetName(string name)
+	public void Fill(bool isDirectory, string name)
 	{
+		isDir = isDirectory;
 		fileName = name;
 		text.text = name;
 	}
@@ -25,6 +27,11 @@ public class FBListItem : MonoBehaviour {
 	{
 		Debug.Log (fileName);
 		return fileName;
+	}
+
+	public IsDir()
+	{
+		return isDir;
 	}
 
 	public void FilePick()

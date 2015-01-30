@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.IO;
+using System.Text.RegularExpressions;
 
 
 public class FSReader
@@ -32,7 +33,7 @@ public class FSReader
 }
 
 
-public class FSFilter
+/*public class FSFilter
 {
 	public FSFilter()
 	{
@@ -49,7 +50,7 @@ public class FSFilter
 	{
 		return ApplyFilter (list);
 	}
-}
+}*/
 
 
 public class FileBrowser : MonoBehaviour {
@@ -60,44 +61,53 @@ public class FileBrowser : MonoBehaviour {
 	public FBList fbList;
 	
 	private FSReader fsReader;
-	private FSFilter fsFilter;
+	//private FSFilter fsFilter;
 
-	public string path = "c:/";
+	public string initialPath = "c:/";
 	public string filter = "*";
 
 	private string currentPath = "";
-	private bool isDone = false;
+	private string workPath = "";
+	private string oldPath = "";
+
 	private string fileName;
 	private string filePath;
+
+	private bool isDone = false;
 
 	void Awake()
 	{
 		//Debug.Log ("FileBrowser.Awake()");
 		fsReader = new FSReader ();
-		fsFilter = new FSFilter();
-	}
-
-	void Start()
-	{
-
+		//fsFilter = new FSFilter();
 	}
 
 
-	public void OpenDir(string path, string filter)
+	public void OpenDir(string reqPath, string filter)
 	{
-		Debug.Log ("FileBrowser.OpenDir('"+path+"','"+filter+"')");
+		Debug.Log ("FileBrowser.OpenDir('"+reqPath+"','"+filter+"')");
 
-		if (""!=currentPath) currentPath = currentPath + "/" ;
-		string fullPath = currentPath + path;
-		Debug.Log ("FileBrowser.OpenDir(), fullPath: '"+fullPath);
+		/*reqPath = reqPath.Replace ("\\", "/");
+		reqPath = reqPath.TrimEnd ('/');
+		reqPath = reqPath.TrimStart ('/');
+		Debug.Log ("Trimmed path: " + reqPath);*/
 
-		string[] wetList = fsReader.GetList (fullPath,filter);
-		//string[] strictList = fsFilter.ApplyFilter (wetList);
-		string[] strictList = wetList;
+		if (".."==reqPath)
+		{
+			workPath = Regex.Replace(currentPath,"[^/]+/?$","");
+		}
+		else
+		{
+			workPath = currentPath + reqPath;
+		}
+		Debug.Log ("workPath: "+workPath);
 
-		DisplayList (strictList);
+		oldPath = currentPath;
+		currentPath = workPath;
 
-		currentPath = path;
+		string[] list = fsReader.GetList (workPath,filter);
+
+		DisplayList (list);
 	}
 
 	private void DisplayList(string[] list)
@@ -116,7 +126,7 @@ public class FileBrowser : MonoBehaviour {
 		}
 
 		// Создание нового списка
-		initialListItem.GetComponent<FBListItem> ().SetName ("..");
+		initialListItem.GetComponent<FBListItem> ().Fill (true,"..");
 
 		int y = -30;
 		int dY = 30;
@@ -128,7 +138,7 @@ public class FileBrowser : MonoBehaviour {
 				new Vector3(0,y,0),
 				new Quaternion()
 				) as GameObject;
-			newItem.GetComponent<FBListItem>().SetName(name);
+			newItem.GetComponent<FBListItem>().Fill(true,name);
 			newItem.transform.SetParent(fbList.transform,false);
 			y -= dY;
 		}
@@ -160,8 +170,8 @@ public class FileBrowser : MonoBehaviour {
 
 		isDone = false;
 
-		fbTitle.SetTitle ("Каталог \""+path+"\"");
-		OpenDir(path,filter);
+		fbTitle.SetTitle ("Каталог \""+initialPath+"\"");
+		OpenDir(initialPath,filter);
 
 		box.ChangeScreen ("files");
 	}
