@@ -11,10 +11,22 @@ public class FSReader
 		Debug.Log ("FSReader.__construct()");
 	}
 
-	public string[] GetList(string path)
+	public string[] GetList(string path, string filter="")
 	{
-		Debug.Log ("FSReader.GetList('"+path+"')");
-		string[] list = Directory.GetFileSystemEntries (path,"*.OgG");
+		Debug.Log ("FSReader.GetList('"+path+"','"+filter+"')");
+		
+		string[] dirs = Directory.GetDirectories (path);
+		string[] files = Directory.GetFiles (path,filter);
+
+		string[] list = new string[dirs.Length + files.Length];
+		dirs.CopyTo (list, 0);
+		files.CopyTo (list, dirs.Length);
+
+		for (int i=0; i<list.Length; i+=1)
+		{
+			list[i] = list[i].Replace("\\","/");
+		}
+
 		return list;
 	}
 }
@@ -51,7 +63,7 @@ public class FileBrowser : MonoBehaviour {
 	private FSFilter fsFilter;
 
 	public string path = "c:/";
-	public string filter = "";
+	public string filter = "*";
 
 	private string currentPath = "";
 	private bool isDone = false;
@@ -71,15 +83,15 @@ public class FileBrowser : MonoBehaviour {
 	}
 
 
-	public void ShowDirectory(string path, string filter)
+	public void OpenDir(string path, string filter)
 	{
-		Debug.Log ("FileBrowser.ShowDirectory('"+path+"','"+filter+"')");
+		Debug.Log ("FileBrowser.OpenDir('"+path+"','"+filter+"')");
 
 		if (""!=currentPath) currentPath = currentPath + "/" ;
 		string fullPath = currentPath + path;
-		Debug.Log ("FileBrowser.ShowDirectory(), fullPath: '"+fullPath);
+		Debug.Log ("FileBrowser.OpenDir(), fullPath: '"+fullPath);
 
-		string[] wetList = fsReader.GetList (fullPath);
+		string[] wetList = fsReader.GetList (fullPath,filter);
 		//string[] strictList = fsFilter.ApplyFilter (wetList);
 		string[] strictList = wetList;
 
@@ -87,13 +99,6 @@ public class FileBrowser : MonoBehaviour {
 
 		currentPath = path;
 	}
-
-	public void ShowDirectory(string path)
-	{
-		Debug.Log ("FileBrowser.ShowDirectory('"+path+"')");
-		ShowDirectory (path, "");
-	}
-
 
 	private void DisplayList(string[] list)
 	{
@@ -156,7 +161,7 @@ public class FileBrowser : MonoBehaviour {
 		isDone = false;
 
 		fbTitle.SetTitle ("Каталог \""+path+"\"");
-		ShowDirectory(path);
+		OpenDir(path,filter);
 
 		box.ChangeScreen ("files");
 	}
@@ -167,7 +172,7 @@ public class FileBrowser : MonoBehaviour {
 
 		if (".."==path)
 		{
-			ShowDirectory(path);
+			OpenDir(path,filter);
 		}
 		else
 		{
