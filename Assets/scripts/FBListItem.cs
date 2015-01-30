@@ -29,7 +29,7 @@ public class FBListItem : MonoBehaviour {
 		return fileName;
 	}
 
-	public IsDir()
+	public bool IsDir()
 	{
 		return isDir;
 	}
@@ -37,6 +37,6 @@ public class FBListItem : MonoBehaviour {
 	public void FilePick()
 	{
 		Debug.Log("FBListItem.FilePick()");
-		fileBrowser.FilePick (fileName);
+		fileBrowser.FilePick (isDir,fileName);
 	}
 }

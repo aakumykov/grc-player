@@ -12,21 +12,24 @@ public class FSReader
 		Debug.Log ("FSReader.__construct()");
 	}
 
-	public string[] GetList(string path, string filter="")
+	public string[][] GetList(string path, string filter="")
 	{
 		Debug.Log ("FSReader.GetList('"+path+"','"+filter+"')");
 		
 		string[] dirs = Directory.GetDirectories (path);
 		string[] files = Directory.GetFiles (path,filter);
 
-		string[] list = new string[dirs.Length + files.Length];
-		dirs.CopyTo (list, 0);
-		files.CopyTo (list, dirs.Length);
-
-		for (int i=0; i<list.Length; i+=1)
+		for (int i=0; i<dirs.Length; i+=1)
 		{
-			list[i] = list[i].Replace("\\","/");
+			dirs[i] = dirs[i].Replace ("\\","/");
 		}
+
+		for (int i=0; i<files.Length; i+=1)
+		{
+			files[i] = files[i].Replace ("\\","/");
+		}
+
+		string[][] list = new string[][] { dirs, files };
 
 		return list;
 	}
@@ -98,19 +101,20 @@ public class FileBrowser : MonoBehaviour {
 		}
 		else
 		{
-			workPath = currentPath + reqPath;
+			//workPath = currentPath + reqPath;
+			workPath = reqPath;
 		}
 		Debug.Log ("workPath: "+workPath);
 
 		oldPath = currentPath;
 		currentPath = workPath;
 
-		string[] list = fsReader.GetList (workPath,filter);
+		string[][] list = fsReader.GetList (workPath,filter);
 
 		DisplayList (list);
 	}
 
-	private void DisplayList(string[] list)
+	private void DisplayList(string[][] list)
 	{
 		Debug.Log ("FileBrowser.DisplayList()");
 
@@ -121,24 +125,42 @@ public class FileBrowser : MonoBehaviour {
 		// Удаление старого списка, кроме 1-ого элемента
 		for(int i=1; i<listItems.Length; i+=1)
 		{
-			Debug.Log("FileBrowser.DisplayList(), удаляю элемент "+i);
 			Destroy(listItems[i]);
 		}
 
 		// Создание нового списка
 		initialListItem.GetComponent<FBListItem> ().Fill (true,"..");
 
+		string[] dirs = new string[list[0].Length];
+		string[] files = new string[list[1].Length];
+		list[0].CopyTo (dirs, 0);
+		list[1].CopyTo (files, 0);
+
 		int y = -30;
 		int dY = 30;
-		for (int i=0; i<list.Length; i+=1)
+
+		for (int i=0; i<dirs.Length; i+=1)
 		{
-			string name = list[i];
+			string name = dirs[i];
 			GameObject newItem = Instantiate(
 				initialListItem,
 				new Vector3(0,y,0),
 				new Quaternion()
 				) as GameObject;
 			newItem.GetComponent<FBListItem>().Fill(true,name);
+			newItem.transform.SetParent(fbList.transform,false);
+			y -= dY;
+		}
+
+		for (int i=0; i<files.Length; i+=1)
+		{
+			string name = files[i];
+			GameObject newItem = Instantiate(
+				initialListItem,
+				new Vector3(0,y,0),
+				new Quaternion()
+				) as GameObject;
+			newItem.GetComponent<FBListItem>().Fill(false,name);
 			newItem.transform.SetParent(fbList.transform,false);
 			y -= dY;
 		}
@@ -176,11 +198,11 @@ public class FileBrowser : MonoBehaviour {
 		box.ChangeScreen ("files");
 	}
 
-	public void FilePick(string path)
+	public void FilePick(bool isDir, string path)
 	{
 		Debug.Log ("FileBrowser.FilePick('" + path + "')");
 
-		if (".."==path)
+		if (isDir)
 		{
 			OpenDir(path,filter);
 		}
