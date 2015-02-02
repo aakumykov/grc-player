@@ -15,7 +15,10 @@ public class FSReader
 	public string[][] GetList(string path, string filter="")
 	{
 		Debug.Log ("FSReader.GetList('"+path+"','"+filter+"')");
-		
+
+		//Debug.Log ("Current directory: "+Directory.GetCurrentDirectory ());
+		//Debug.Log ("Some full path: "+Path.GetFullPath("C:/Users/Администратор/../"));
+
 		string[] dirs = Directory.GetDirectories (path);
 		string[] files = Directory.GetFiles (path,filter);
 
@@ -108,6 +111,8 @@ public class FileBrowser : MonoBehaviour {
 
 		oldPath = currentPath;
 		currentPath = workPath;
+
+		fbTitle.SetTitle ("Каталог: "+currentPath);
 
 		string[][] list = fsReader.GetList (workPath,filter);
 
