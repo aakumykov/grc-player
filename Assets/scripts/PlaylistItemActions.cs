@@ -64,7 +64,7 @@ public class PlaylistItemActions : MonoBehaviour {
 		Debug.Log("PlaylistItemActions.LoadSound('"+fileName+"')");
 		
 		fileName = "file:///" + fileName;
-		Debug.Log (fileName);
+		//Debug.Log (fileName);
 
 		w = new WWW(fileName);
 		while (!w.isDone)
@@ -77,9 +77,9 @@ public class PlaylistItemActions : MonoBehaviour {
 		Debug.Log("PlaylistItemActions.LoadSound(), COMPLETE '"+fileName+"'");
 		
 		clip = w.audioClip;
-		Debug.Log ("PlaylistItemActions.LoadSound(), clip: "+clip);
-		Debug.Log ("PlaylistItemActions.LoadSound(), clip length: "+clip.length);
-		Debug.Log ("PlaylistItemActions.LoadSound(), clip frequency: "+clip.frequency);
+		//Debug.Log ("PlaylistItemActions.LoadSound(), clip: "+clip);
+		//Debug.Log ("PlaylistItemActions.LoadSound(), clip length: "+clip.length);
+		//Debug.Log ("PlaylistItemActions.LoadSound(), clip frequency: "+clip.frequency);
 		
 		playlist.Add (fileName,clip);
 	}
