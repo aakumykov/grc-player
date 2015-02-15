@@ -71,8 +71,8 @@ public class FBList : MonoBehaviour {
 		float parentHeight = transform.parent.GetComponent<RectTransform>().rect.height;
 		float rectHeight = panelRect.height;
 		
-		y0 = parentHeight;
-		y1 = 1710;
+		y0 = parentHeight - 30;
+		y1 = rectHeight;
 		yOverlap = y1 - y0;
 		y = y0;
 		
