@@ -39,4 +39,10 @@ public class FBListItem : MonoBehaviour {
 		Debug.Log("FBListItem.FilePick()");
 		fileBrowser.FilePick (isDir,fileName);
 	}
+	
+	
+	public void ShowSize()
+	{
+		Debug.Log ("FBListItem size: "+gameObject.GetComponent<RectTransform>().rect.size);
+	}
 }
