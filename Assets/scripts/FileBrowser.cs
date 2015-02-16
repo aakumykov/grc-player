@@ -63,14 +63,18 @@ public class FileBrowser : MonoBehaviour {
 
 	public BOXActions box;
 	public Player player;
+	
 	public FBTitle fbTitle;
 	public FBList fbList;
-	
-	private FSReader fsReader;
-	//private FSFilter fsFilter;
+	public Scrollbar fbScrollbar;
 
 	public string initialPath = "c:/";
 	public string filter = "*";
+	public int scrollbarSteps = 10;
+	public float screenCheckInterval = 0.1f;
+
+	private FSReader fsReader;
+	//private FSFilter fsFilter;
 
 	private string currentPath = "";
 	private string workPath = "";
@@ -86,6 +90,7 @@ public class FileBrowser : MonoBehaviour {
 		//Debug.Log ("FileBrowser.Awake()");
 		fsReader = new FSReader ();
 		//fsFilter = new FSFilter();
+		fbScrollbar.numberOfSteps = scrollbarSteps + 1;
 	}
 
 
@@ -169,8 +174,18 @@ public class FileBrowser : MonoBehaviour {
 			newItem.transform.SetParent(fbList.transform,false);
 			y -= dY;
 		}
+		
+		fbList.CalcParams();
 	}
 
+	
+	public void Scroll()
+	{
+		Debug.Log ("FileBrowser.Scroll()");
+		
+		fbList.Move(fbScrollbar.value);
+	}
+	
 
 	public void Ok()
 	{
