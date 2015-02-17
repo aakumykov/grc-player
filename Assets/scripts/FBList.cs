@@ -3,9 +3,10 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class FBList : MonoBehaviour {
-	
-	public int headerHeight;
-	public int footerHeight;
+
+	public Scrollbar scrollbar;
+	public int steps = 10;
+	public float checkInterval = 0.1f;
 	
 	private Rect panelRect;
 	private float y0;
@@ -18,9 +19,13 @@ public class FBList : MonoBehaviour {
 	
 	void Awake()
 	{
-		Debug.Log ("FBList.Awake(), transform.position: "+transform.position);
+		Debug.Log ("==============FBList.Awake===============");
+		Debug.Log ("transform.position: "+transform.position);
+		Debug.Log ("==============FBList.Awake===============");
 		
-		//SaveScreenState();
+		scrollbar.numberOfSteps = steps + 1;
+		
+		SaveScreenState();
 		
 		CalcParams();
 	}
@@ -30,7 +35,7 @@ public class FBList : MonoBehaviour {
 		//StartCoroutine( CheckScreenSize() );
 	}
 	
-	/*IEnumerator CheckScreenSize()
+	IEnumerator CheckScreenSize()
 	{
 		while (true)
 		{	
@@ -49,25 +54,25 @@ public class FBList : MonoBehaviour {
 			
 			yield return new WaitForSeconds(checkInterval);
 		}
-	}*/
+	}
 	
-	/*void SaveScreenState()
+	void SaveScreenState()
 	{
 		oldScrollValue = scrollbar.value;
 		
 		oldScreenWidth = Screen.width;
 		oldScreenHeight = Screen.height;
-	}*/
+	}
 	
-	public void CalcParams()
-	{
+	void CalcParams()
+	{	
 		panelRect = gameObject.GetComponent<RectTransform>().rect;
 		
 		float parentHeight = transform.parent.GetComponent<RectTransform>().rect.height;
 		float rectHeight = panelRect.height;
 		
-		y0 = parentHeight - headerHeight;
-		y1 = rectHeight + footerHeight;
+		y0 = parentHeight - 30;
+		y1 = rectHeight;
 		yOverlap = y1 - y0;
 		y = y0;
 		
@@ -78,14 +83,16 @@ public class FBList : MonoBehaviour {
 		Debug.Log ("==============CalcParams===============");
 	}
 	
-	public void Move(float value)
+	public void Move()
 	{
-		float newY = y0 + yOverlap * value;
+		float newY = y0 + yOverlap * scrollbar.value;
 		
 		transform.position = new Vector3(
 			transform.position.x,
 			newY
 			);
+		
+		oldScrollValue = scrollbar.value;
 		
 		//Debug.Log("---------------");
 	}
