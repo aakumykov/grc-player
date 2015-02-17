@@ -72,7 +72,7 @@ public class FBList : MonoBehaviour {
 		float rectHeight = panelRect.height;
 		
 		y0 = parentHeight - 30;
-		y1 = rectHeight;
+		y1 = rectHeight + 50;
 		yOverlap = y1 - y0;
 		y = y0;
 		
