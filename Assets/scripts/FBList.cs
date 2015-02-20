@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class FBList : MonoBehaviour {
-
+	
 	public Scrollbar scrollbar;
 	
 	private float topOffset = 0f;
@@ -12,6 +12,7 @@ public class FBList : MonoBehaviour {
 	private float leftOffset = 0f;
 
 	private Rect listRect;
+	private float itemHeight;
 
 	private float frameHeight = 320f;
 	private float listHeight;
@@ -31,6 +32,7 @@ public class FBList : MonoBehaviour {
 		Debug.Log ("=========================================");*/
 
 		listRect = gameObject.GetComponent<RectTransform> ().rect;
+		itemHeight = FindObjectOfType<FBListItem> ().GetComponent<RectTransform>().rect.height;
 
 		listHeight = listRect.height;
 		x0 = transform.position.x;
@@ -60,18 +62,19 @@ public class FBList : MonoBehaviour {
 		scrollbar.value = 0f;
 	}
 	
-	public void SetHeight(float aHeight)
+	public void SetHeight(int itemsCount)
 	{
-		Debug.Log ("FBList.SetHeight("+aHeight+")");
-		listHeight = aHeight;
+		Debug.Log ("FBList.SetHeight(itemsCount:"+itemsCount+")");
+		listHeight = itemHeight * itemsCount;
 		listRect.height = listHeight;
+		Debug.Log ("listHeight: "+listHeight);
 	}
 	
 	public void Move()
 	{
 		Debug.Log ("FBList.Move(), scrollbar.value="+scrollbar.value);
 		Debug.Log ("height delta: "+scrollbar.value * listHeight);
-		float newY = y0 + (scrollbar.value * listHeight + frameHeight / 2) + bottomOffset;
+		float newY = y0 + (scrollbar.value * listHeight + frameHeight / 2) + bottomOffset - topOffset;
 		Debug.Log ("newY: "+newY);
 		transform.position = new Vector3 (x0, newY);
 	}

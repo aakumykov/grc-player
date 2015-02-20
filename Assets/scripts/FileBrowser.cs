@@ -89,7 +89,6 @@ public class FileBrowser : MonoBehaviour {
 		fsReader = new FSReader ();
 		//fsFilter = new FSFilter();
 		fbList.Init (new Vector4 (30f, 50f, 50f, 0f));
-		fbList.SetHeight (1000);
 	}
 
 
@@ -173,7 +172,8 @@ public class FileBrowser : MonoBehaviour {
 			newItem.transform.SetParent(fbList.transform,false);
 			y -= dY;
 		}
-
+		
+		fbList.SetHeight (dirs.Length + files.Length);
 		fbList.ResetScrollbar ();
 	}
 
