@@ -14,7 +14,8 @@ public class FBList : MonoBehaviour {
 	private float frameHeight;
 
 	private Rect listRect;
-	private float listHeight;
+	private float rectHeight;
+	private float workHeight;
 	private float itemHeight;
 	
 	private float x0;
@@ -34,8 +35,6 @@ public class FBList : MonoBehaviour {
 		rightOffset = offsets.y;
 		bottomOffset = offsets.z;
 		leftOffset = offsets.w;
-
-		y0 = y0 + topOffset;
 	}
 	
 	public void ResetScrollbar()
@@ -46,23 +45,27 @@ public class FBList : MonoBehaviour {
 
 	public void CalcParams(int itemsCount)
 	{
-		frameHeight = Screen.height - topOffset - bottomOffset;
-		Debug.Log ("FBList.CalcParams(), Screen.height: " + Screen.height);
-		Debug.Log ("FBList.CalcParams(), frameHeight: " + frameHeight);
-		
 		listRect = gameObject.GetComponent<RectTransform> ().rect;
 		itemHeight = FindObjectOfType<FBListItem> ().GetComponent<RectTransform>().rect.height;
 
-		listHeight = itemHeight * itemsCount - frameHeight;
-		listRect.height = listHeight;
-		Debug.Log ("FBList.CalcParams(itemsCount="+itemsCount+", listHeight="+listHeight);
+		rectHeight = itemHeight * itemsCount;
+		listRect.height = rectHeight;
+		Debug.Log ("FBList.CalcParams(), rectHeight="+rectHeight+" (itemsCount="+itemsCount+")");
+
+		frameHeight = Screen.height - topOffset - bottomOffset;
+		Debug.Log ("FBList.CalcParams(), frameHeight=" + frameHeight+" (Screen.height= "+Screen.height+")");
+
+		workHeight = rectHeight - frameHeight + topOffset;
+		Debug.Log ("FBList.CalcParams(), workHeight: " + workHeight);
+
+
 	}
 
 	public void Move()
 	{
 		Debug.Log ("FBList.Move(scroll value:"+scrollbar.value+")");
 
-		float deltaHeight = scrollbar.value * listHeight;
+		float deltaHeight = scrollbar.value * workHeight;
 		Debug.Log ("deltaHeight: " + deltaHeight);
 
 		float newY = deltaHeight + y0;
