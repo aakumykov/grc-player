@@ -46,7 +46,6 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\CanvasActions.cs" />
      <Compile Include="Assets\ListTest.cs" />
      <Compile Include="Assets\scripts\BOXActions.cs" />
      <Compile Include="Assets\scripts\BOXActions_old.cs" />
