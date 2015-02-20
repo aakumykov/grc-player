@@ -1,9 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\scripts\FBList.cs">
     <Files>
-      <File FileName="Assets\scripts\FBList.cs" Line="22" Column="15" />
-      <File FileName="Assets\scripts\FileBrowser.cs" Line="92" Column="25" />
+      <File FileName="Assets\scripts\FBList.cs" Line="77" Column="31" />
+      <File FileName="Assets\scripts\FileBrowser.cs" Line="197" Column="17" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

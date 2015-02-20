@@ -173,7 +173,7 @@ public class FileBrowser : MonoBehaviour {
 			y -= dY;
 		}
 		
-		fbList.SetHeight (dirs.Length + files.Length);
+		fbList.CalcParams (dirs.Length + files.Length);
 		fbList.ResetScrollbar ();
 	}
 
