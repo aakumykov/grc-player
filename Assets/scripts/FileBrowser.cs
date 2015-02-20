@@ -65,6 +65,8 @@ public class FileBrowser : MonoBehaviour {
 	public Player player;
 	public FBTitle fbTitle;
 	public FBList fbList;
+	public GameObject fbFooter;
+	public Scrollbar scrollbar;
 	
 	private FSReader fsReader;
 	//private FSFilter fsFilter;
@@ -86,6 +88,8 @@ public class FileBrowser : MonoBehaviour {
 		//Debug.Log ("FileBrowser.Awake()");
 		fsReader = new FSReader ();
 		//fsFilter = new FSFilter();
+		fbList.Init (new Vector4 (30f, 50f, 50f, 0f));
+		fbList.SetHeight (1000);
 	}
 
 
@@ -169,6 +173,8 @@ public class FileBrowser : MonoBehaviour {
 			newItem.transform.SetParent(fbList.transform,false);
 			y -= dY;
 		}
+
+		fbList.ResetScrollbar ();
 	}
 
 

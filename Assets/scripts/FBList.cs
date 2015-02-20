@@ -5,95 +5,74 @@ using System.Collections;
 public class FBList : MonoBehaviour {
 
 	public Scrollbar scrollbar;
-	public int steps = 10;
-	public float checkInterval = 0.1f;
 	
-	private Rect panelRect;
+	private float topOffset = 0f;
+	private float rightOffset = 0f;
+	private float bottomOffset = 0f;
+	private float leftOffset = 0f;
+
+	private Rect listRect;
+
+	private float frameHeight = 320f;
+	private float listHeight;
+	private float x0;
 	private float y0;
-	private float y1;
-	private float yOverlap;
 	private float y;
-	private float oldScrollValue;
-	private float oldScreenWidth;
-	private float oldScreenHeight;
 	
-	void Awake()
+	void Awake ()
 	{
-		Debug.Log ("==============FBList.Awake===============");
-		Debug.Log ("transform.position: "+transform.position);
-		Debug.Log ("==============FBList.Awake===============");
+		/*Debug.Log ("=========================================");
+		Debug.Log ("SCREEN: "+Screen.width+"x"+Screen.height);
+		Debug.Log ("transform.position: " + transform.position);
 		
-		scrollbar.numberOfSteps = steps + 1;
-		
-		SaveScreenState();
-		
-		CalcParams();
-	}
-	
-	void Start()
-	{
-		//StartCoroutine( CheckScreenSize() );
-	}
-	
-	IEnumerator CheckScreenSize()
-	{
-		while (true)
-		{	
-			if (oldScrollValue != scrollbar.value)
-			{
-				SaveScreenState();
-				Move ();
-			}
-			
-			if (oldScreenWidth != Screen.width || oldScreenHeight != Screen.height)
-			{
-				//Debug.Log ("CheckScreenSize(): SIZE CHANGED");
-				SaveScreenState();
-				CalcParams();
-			}
-			
-			yield return new WaitForSeconds(checkInterval);
-		}
-	}
-	
-	void SaveScreenState()
-	{
-		oldScrollValue = scrollbar.value;
-		
-		oldScreenWidth = Screen.width;
-		oldScreenHeight = Screen.height;
-	}
-	
-	void CalcParams()
-	{	
-		panelRect = gameObject.GetComponent<RectTransform>().rect;
-		
-		float parentHeight = transform.parent.GetComponent<RectTransform>().rect.height;
-		float rectHeight = panelRect.height;
-		
-		y0 = parentHeight - 30;
-		y1 = rectHeight;
-		yOverlap = y1 - y0;
+		Rect listRect = gameObject.GetComponent<RectTransform> ().rect;
+		Debug.Log ("listRect.position: " + listRect.position);
+		Debug.Log ("listRect.size: " + listRect.size);
+		Debug.Log ("=========================================");*/
+
+		listRect = gameObject.GetComponent<RectTransform> ().rect;
+
+		listHeight = listRect.height;
+		x0 = transform.position.x;
+		y0 = transform.position.y;
 		y = y0;
-		
-		Debug.Log ("==============CalcParams===============");
-		Debug.Log ("parentHeight: "+parentHeight);
-		Debug.Log ("rectHeight: "+rectHeight);
-		Debug.Log ("y0, y1, yOverlap: "+y0+", "+y1+", "+yOverlap);
-		Debug.Log ("==============CalcParams===============");
+
+		Debug.Log ("=========================================");
+		Debug.Log ("SCREEN: "+Screen.width+"x"+Screen.height);
+		Debug.Log ("listHeight:"+listHeight);
+		Debug.Log ("x0:"+x0);
+		Debug.Log ("y0:"+y0);
+		Debug.Log ("=========================================");
+	}
+	
+	public void Init(Vector4 offsets)
+	{
+		Debug.Log ("FBList.Iint(), " + offsets);
+		topOffset = offsets.x;
+		rightOffset = offsets.y;
+		bottomOffset = offsets.z;
+		leftOffset = offsets.w;
+	}
+	
+	public void ResetScrollbar()
+	{
+		Debug.Log ("FBList.ResetScrollbar()");
+		scrollbar.value = 0f;
+	}
+	
+	public void SetHeight(float aHeight)
+	{
+		Debug.Log ("FBList.SetHeight("+aHeight+")");
+		listHeight = aHeight;
+		listRect.height = listHeight;
 	}
 	
 	public void Move()
 	{
-		float newY = y0 + yOverlap * scrollbar.value;
-		
-		transform.position = new Vector3(
-			transform.position.x,
-			newY
-			);
-		
-		oldScrollValue = scrollbar.value;
-		
-		//Debug.Log("---------------");
+		Debug.Log ("FBList.Move(), scrollbar.value="+scrollbar.value);
+		Debug.Log ("height delta: "+scrollbar.value * listHeight);
+		float newY = y0 + (scrollbar.value * listHeight + frameHeight / 2) + bottomOffset;
+		Debug.Log ("newY: "+newY);
+		transform.position = new Vector3 (x0, newY);
 	}
 }
