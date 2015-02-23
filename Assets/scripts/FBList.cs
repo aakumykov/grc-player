@@ -58,7 +58,8 @@ public class FBList : MonoBehaviour {
 		workHeight = rectHeight - frameHeight + topOffset;
 		Debug.Log ("FBList.CalcParams(), workHeight: " + workHeight);
 
-
+		y0 = y0 - topOffset;
+		Debug.Log ("y0: "+y0);
 	}
 
 	public void Move()
@@ -69,8 +70,8 @@ public class FBList : MonoBehaviour {
 		Debug.Log ("deltaHeight: " + deltaHeight);
 
 		float newY = deltaHeight + y0;
-		Debug.Log ("newY: " + newY);
+		Debug.Log ("newY: " + newY+", x: "+transform.position.x);
 
-		transform.position = new Vector3 (x0, newY);
+		transform.position = new Vector3 (transform.position.x, newY, 0f);
 	}
 }
