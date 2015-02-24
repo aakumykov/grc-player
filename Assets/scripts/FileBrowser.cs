@@ -92,6 +92,19 @@ public class FileBrowser : MonoBehaviour {
 		fbList.Init (new Vector4 (30f, 50f, 50f, 0f));
 	}
 
+	public void Appear()
+	{
+		Debug.Log ("FileBrowser.Appear()");
+		
+		isDone = false;
+
+		if ("" != lastPath) initialPath = lastPath;
+
+		fbTitle.SetTitle ("Каталог \""+initialPath+"\"");
+		OpenDir(initialPath,filter);
+		
+		box.ChangeScreen ("files");
+	}
 
 	public void OpenDir(string reqPath, string filter)
 	{
@@ -195,18 +208,6 @@ public class FileBrowser : MonoBehaviour {
 	{
 		//Debug.Log ("FileBrowser.IsFileSelected()");
 		return isDone;
-	}
-
-	public void Appear()
-	{
-		Debug.Log ("FileBrowser.Appear()");
-
-		isDone = false;
-
-		fbTitle.SetTitle ("Каталог \""+initialPath+"\"");
-		OpenDir(initialPath,filter);
-
-		box.ChangeScreen ("files");
 	}
 
 	public void FilePick(bool isDir, string path)
