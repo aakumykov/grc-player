@@ -43,7 +43,7 @@ public class FBList : MonoBehaviour {
 		scrollbar.value = 0f;
 	}
 
-	public void CalcParams(int itemsCount)
+	public void CalcParams(int itemsCount, bool firstOpen)
 	{
 		listRect = gameObject.GetComponent<RectTransform> ().rect;
 		
@@ -60,6 +60,8 @@ public class FBList : MonoBehaviour {
 		Debug.Log ("FBList.CalcParams(), workHeight: " + workHeight);
 		
 		y0 = Screen.height - topOffset;
+
+		if (10000000 != lastY && !firstOpen) y0 = lastY;
 	}
 
 	public void Move()

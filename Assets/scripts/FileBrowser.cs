@@ -77,6 +77,9 @@ public class FileBrowser : MonoBehaviour {
 	private string currentPath = "";
 	private string workPath = "";
 	private string lastPath = "";
+	private string lastPath2 = "";
+
+	private bool firstOpen = true;
 
 	private string fileName;
 	private string filePath;
@@ -102,7 +105,7 @@ public class FileBrowser : MonoBehaviour {
 
 		fbTitle.SetTitle ("Каталог \""+initialPath+"\"");
 		OpenDir(initialPath,filter);
-		
+
 		box.ChangeScreen ("files");
 	}
 
@@ -125,8 +128,15 @@ public class FileBrowser : MonoBehaviour {
 			workPath = reqPath;
 		}
 		Debug.Log ("workPath: "+workPath);
-		
+
 		lastPath = workPath;
+
+		if (lastPath != lastPath2){
+			firstOpen = true;
+			lastPath2 = lastPath;
+		} else {
+			firstOpen = false;
+		}
 
 		fbTitle.SetTitle ("Каталог: "+workPath);
 
@@ -186,8 +196,8 @@ public class FileBrowser : MonoBehaviour {
 			y -= dY;
 		}
 		
-		fbList.CalcParams (dirs.Length + files.Length);
-		fbList.ResetScrollbar ();
+		fbList.CalcParams (dirs.Length + files.Length, firstOpen);
+		//fbList.ResetScrollbar ();
 	}
 
 
