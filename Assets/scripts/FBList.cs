@@ -11,6 +11,7 @@ public class FBList : MonoBehaviour {
 	
 	private Rect listRect;
 	private float rectHeight;
+	private float frameHeight;
 	private float workHeight;
 	private float itemHeight;
 		
@@ -18,8 +19,8 @@ public class FBList : MonoBehaviour {
 	private float rightOffset = 0f;
 	private float bottomOffset = 0f;
 	private float leftOffset = 0f;
-	
-	private float frameHeight;
+
+	private float lastY = 10000000f;
 
 	
 	void Awake ()

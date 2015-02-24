@@ -76,10 +76,11 @@ public class FileBrowser : MonoBehaviour {
 
 	private string currentPath = "";
 	private string workPath = "";
-	private string oldPath = "";
+	private string lastPath = "";
 
 	private string fileName;
 	private string filePath;
+
 
 	private bool isDone = false;
 
@@ -103,7 +104,7 @@ public class FileBrowser : MonoBehaviour {
 
 		if (".."==reqPath)
 		{
-			workPath = Regex.Replace(currentPath,"[^/]+/?$","");
+			workPath = Regex.Replace(reqPath,"[^/]+/?$","");
 		}
 		else
 		{
@@ -111,11 +112,10 @@ public class FileBrowser : MonoBehaviour {
 			workPath = reqPath;
 		}
 		Debug.Log ("workPath: "+workPath);
+		
+		lastPath = workPath;
 
-		oldPath = currentPath;
-		currentPath = workPath;
-
-		fbTitle.SetTitle ("Каталог: "+currentPath);
+		fbTitle.SetTitle ("Каталог: "+workPath);
 
 		string[][] list = fsReader.GetList (workPath,filter);
 
