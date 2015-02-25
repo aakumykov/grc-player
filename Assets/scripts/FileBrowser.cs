@@ -98,8 +98,9 @@ public class FileBrowser : MonoBehaviour {
 		
 		isDone = false;
 
-		if ("" != lastPath) initialPath = lastPath;
-		
+		if (""!=lastPath) initialPath = lastPath;
+		if (""==lastPath) fbList.ResetScrollbar ();
+
 		fbTitle.SetTitle ("Каталог \""+initialPath+"\"");
 		OpenDir(initialPath,filter);
 		
@@ -118,6 +119,7 @@ public class FileBrowser : MonoBehaviour {
 		if (".."==reqPath)
 		{
 			workPath = Regex.Replace(currentPath,"[^/]+/?$","");
+			fbList.ResetScrollbar ();
 		}
 		else
 		{
@@ -189,7 +191,6 @@ public class FileBrowser : MonoBehaviour {
 		}
 		
 		fbList.CalcParams (dirs.Length + files.Length);
-		fbList.ResetScrollbar ();
 	}
 
 
