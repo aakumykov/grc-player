@@ -11,6 +11,7 @@ public class FBList : MonoBehaviour {
 	
 	private Rect listRect;
 	private float rectHeight;
+	private float frameHeight;
 	private float workHeight;
 	private float itemHeight;
 		
@@ -18,8 +19,8 @@ public class FBList : MonoBehaviour {
 	private float rightOffset = 0f;
 	private float bottomOffset = 0f;
 	private float leftOffset = 0f;
-	
-	private float frameHeight;
+
+	private float lastY = 10000000f;
 
 	
 	void Awake ()
@@ -42,7 +43,7 @@ public class FBList : MonoBehaviour {
 		scrollbar.value = 0f;
 	}
 
-	public void CalcParams(int itemsCount)
+	public void CalcParams(int itemsCount, bool firstOpen)
 	{
 		listRect = gameObject.GetComponent<RectTransform> ().rect;
 		
@@ -59,6 +60,8 @@ public class FBList : MonoBehaviour {
 		Debug.Log ("FBList.CalcParams(), workHeight: " + workHeight);
 		
 		y0 = Screen.height - topOffset;
+
+		if (10000000 != lastY && !firstOpen) y0 = lastY;
 	}
 
 	public void Move()
