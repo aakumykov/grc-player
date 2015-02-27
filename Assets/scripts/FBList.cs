@@ -20,7 +20,8 @@ public class FBList : MonoBehaviour {
 	private float bottomOffset = 0f;
 	private float leftOffset = 0f;
 
-	private float lastY = 10000000f;
+	private float lastY = 10000000;
+	private float lastScroll = 0f;
 
 	
 	void Awake ()
@@ -37,27 +38,32 @@ public class FBList : MonoBehaviour {
 		leftOffset = offsets.w;
 	}
 	
-	public void Scrollbar(string action)
+	public void Status(string action)
 	{
-		Debug.Log ("FBList.Scrollbar('"+action+"')");
+		Debug.Log ("FBList.Status('"+action+"')");
 		switch (action)
 		{
 			case "reset":
 				scrollbar.value = 0f;
-				//Move();
 				break;
+
 			case "restore":
-				scrollbar.value = lastY;
-				//Move();
+				scrollbar.value = lastScroll;
+				transform.position = new Vector3(transform.position.x, lastY, 0f);
 				break;
+
 			default:
-				Debug.Log("FBList.Scrollbar(): UNKNOWN MODE '"+action+"'");
+				Debug.Log("FBList.Status(): UNKNOWN MODE '"+action+"'");
 				break;
 		}
 	}
 
 	public void CalcParams(int itemsCount)
 	{
+		Debug.Log ("FBList.CalcParams(), SAVE HERE");
+		lastY = transform.position.y;
+		lastScroll = scrollbar.value;
+
 		listRect = gameObject.GetComponent<RectTransform> ().rect;
 		
 		itemHeight = FindObjectOfType<FBListItem> ().GetComponent<RectTransform>().rect.height;
@@ -71,21 +77,19 @@ public class FBList : MonoBehaviour {
 
 		workHeight = rectHeight - frameHeight + topOffset;
 		Debug.Log ("FBList.CalcParams(), workHeight: " + workHeight);
-		
-		lastY = y0;
+
 		y0 = Screen.height - topOffset;
 	}
 
 	public void Move()
 	{
-		Debug.Log ("FBList.Move(scroll value:"+scrollbar.value+")");
+		Debug.Log ("FBList.Move(scrollbar.value:"+scrollbar.value+")");
 
 		float deltaHeight = scrollbar.value * workHeight;
-		Debug.Log ("deltaHeight: " + deltaHeight);
 
 		float newY = y0 + deltaHeight;
-		//newY = 50f;
-		Debug.Log ("newY: " + newY+", x: "+transform.position.x);
+
+		Debug.Log ("FBList.Move(), newY: " + newY+", x: "+transform.position.x);
 
 		transform.position = new Vector3 (transform.position.x, newY, 0f);
 	}

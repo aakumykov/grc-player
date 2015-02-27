@@ -78,7 +78,7 @@ public class FileBrowser : MonoBehaviour {
 	private string workPath = "";
 	private string oldPath = "";
 	private string lastPath = "";
-	private string scrollbarAction = "";
+	private string fbListAction = "";
 
 	private string fileName;
 	private string filePath;
@@ -93,7 +93,7 @@ public class FileBrowser : MonoBehaviour {
 		fbList.Init (new Vector4 (30f, 50f, 50f, 0f));
 	}
 
-	public void OpenDir(string reqPath, string scrollbarAction, string filter)
+	public void OpenDir(string reqPath, string fbListAction, string filter)
 	{
 		Debug.Log ("FileBrowser.OpenDir('"+reqPath+"','"+filter+"')");
 
@@ -110,9 +110,9 @@ public class FileBrowser : MonoBehaviour {
 		{
 			workPath = reqPath;
 		}
-		Debug.Log ("workPath: "+workPath);
+		Debug.Log ("FileBrowser.OpenDir(), workPath: "+workPath);
 
-		fbList.Scrollbar(scrollbarAction);
+		fbList.Status(fbListAction);
 
 		oldPath = currentPath;
 		currentPath = workPath;
@@ -133,16 +133,16 @@ public class FileBrowser : MonoBehaviour {
 		
 		if ("" == lastPath)
 		{
-			scrollbarAction = "reset";
+			fbListAction = "reset";
 		} 
 		else 
 		{
 			initialPath = lastPath;
-			scrollbarAction = "restore";
+			fbListAction = "restore";
 		}
 		
 		fbTitle.SetTitle ("Каталог \""+initialPath+"\"");
-		OpenDir(initialPath,scrollbarAction,filter);
+		OpenDir(initialPath,fbListAction,filter);
 		
 		box.ChangeScreen ("files");
 	}
@@ -153,15 +153,17 @@ public class FileBrowser : MonoBehaviour {
 		
 		if (isDir)
 		{
+			Debug.Log("FileBrowser.FilePick(), IS DIR");
+
 			if (".."==path) {
-				scrollbarAction = "reset";
-				Debug.Log("FileBrowser.FilePick(),RESET");
-			}
-			else {
-				scrollbarAction = "restore";
+				fbListAction = "restore";
 				Debug.Log("FileBrowser.FilePick(), RESTORE");
 			}
-			OpenDir(path,scrollbarAction,filter);
+			else {
+				fbListAction = "reset";
+				Debug.Log("FileBrowser.FilePick(), RESET");
+			}
+			OpenDir(path,fbListAction,filter);
 		}
 		else
 		{
