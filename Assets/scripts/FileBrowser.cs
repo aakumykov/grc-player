@@ -111,6 +111,8 @@ public class FileBrowser : MonoBehaviour {
 
 	public void CalcParams(int itemsCount)
 	{
+		Debug.Log ("FBList.CalcParams(), screen: " + Screen.width + "," + Screen.height);
+
 		listRect = gameObject.GetComponent<RectTransform> ().rect;
 		
 		itemHeight = FindObjectOfType<FBListItem> ().GetComponent<RectTransform>().rect.height;
@@ -125,10 +127,10 @@ public class FileBrowser : MonoBehaviour {
 		workHeight = rectHeight - frameHeight + topOffset;
 		Debug.Log ("FBList.CalcParams(), workHeight: " + workHeight);
 
-		Debug.Log ("FBList.CalcParams(), fbList.transform.position.x: " + fbList.transform.position.x);
-		Debug.Log ("FBList.CalcParams(), fbList.transform.position.y: " + fbList.transform.position.y);
+		Debug.Log ("FBList.CalcParams(), fbList.x,y: "+fbList.transform.position.x+","+fbList.transform.position.y);
 
 		y0 = Screen.height - topOffset;
+		Debug.Log ("FBList.CalcParams(), y0: "+y0);
 	}
 
 	public void OpenDir(string reqPath, string filter)
@@ -165,9 +167,9 @@ public class FileBrowser : MonoBehaviour {
 		Debug.Log ("FileBrowser.MoveList(scrollbar.value:"+scrollbar.value+")");
 		
 		float deltaHeight = scrollbar.value * workHeight;
+		Debug.Log ("FileBrowser.MoveList(), deltaHeight: " + deltaHeight);
 		
 		float newY = y0 + deltaHeight;
-		
 		Debug.Log ("FileBrowser.MoveList(), newY: " + newY+", x: "+fbList.transform.position.x);
 		
 		fbList.transform.position = new Vector3 (fbList.transform.position.x, newY, 0f);
