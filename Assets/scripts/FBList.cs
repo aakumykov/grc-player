@@ -44,9 +44,11 @@ public class FBList : MonoBehaviour {
 		{
 			case "reset":
 				scrollbar.value = 0f;
+				//Move();
 				break;
 			case "restore":
 				scrollbar.value = lastY;
+				//Move();
 				break;
 			default:
 				Debug.Log("FBList.Scrollbar(): UNKNOWN MODE '"+action+"'");

@@ -153,8 +153,14 @@ public class FileBrowser : MonoBehaviour {
 		
 		if (isDir)
 		{
-			if (".."==path) scrollbarAction = "restore";
-			else scrollbarAction = "reset";
+			if (".."==path) {
+				scrollbarAction = "reset";
+				Debug.Log("FileBrowser.FilePick(),RESET");
+			}
+			else {
+				scrollbarAction = "restore";
+				Debug.Log("FileBrowser.FilePick(), RESTORE");
+			}
 			OpenDir(path,scrollbarAction,filter);
 		}
 		else
