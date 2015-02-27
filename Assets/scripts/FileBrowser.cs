@@ -65,7 +65,7 @@ public class FileBrowser : MonoBehaviour {
 	public Player player;
 	public FBTitle fbTitle;
 	public GameObject fbFooter;
-	public FBList fbList;
+	public GameObject fbList;
 	public Scrollbar scrollbar;
 	
 	private FSReader fsReader;
@@ -124,7 +124,10 @@ public class FileBrowser : MonoBehaviour {
 		
 		workHeight = rectHeight - frameHeight + topOffset;
 		Debug.Log ("FBList.CalcParams(), workHeight: " + workHeight);
-		
+
+		Debug.Log ("FBList.CalcParams(), fbList.transform.position.x: " + fbList.transform.position.x);
+		Debug.Log ("FBList.CalcParams(), fbList.transform.position.y: " + fbList.transform.position.y);
+
 		y0 = Screen.height - topOffset;
 	}
 
@@ -159,17 +162,15 @@ public class FileBrowser : MonoBehaviour {
 
 	public void MoveList()
 	{
-		Debug.Log ("FileBrowser.MoveList()");
-
-		Debug.Log ("FBList.Move(scrollbar.value:"+scrollbar.value+")");
+		Debug.Log ("FileBrowser.MoveList(scrollbar.value:"+scrollbar.value+")");
 		
 		float deltaHeight = scrollbar.value * workHeight;
 		
 		float newY = y0 + deltaHeight;
 		
-		Debug.Log ("FBList.Move(), newY: " + newY+", x: "+transform.position.x);
+		Debug.Log ("FileBrowser.MoveList(), newY: " + newY+", x: "+fbList.transform.position.x);
 		
-		transform.position = new Vector3 (transform.position.x, newY, 0f);
+		fbList.transform.position = new Vector3 (fbList.transform.position.x, newY, 0f);
 	}
 
 	public void Appear()
@@ -177,9 +178,7 @@ public class FileBrowser : MonoBehaviour {
 		Debug.Log ("FileBrowser.Appear()");
 		
 		isDone = false;
-
 		
-		fbTitle.SetTitle ("Каталог \""+initialPath+"\"");
 		OpenDir(initialPath,filter);
 		
 		box.ChangeScreen ("files");
@@ -253,7 +252,7 @@ public class FileBrowser : MonoBehaviour {
 			y -= dY;
 		}
 		
-		fbList.CalcParams (dirs.Length + files.Length);
+		CalcParams (dirs.Length + files.Length);
 	}
 
 
