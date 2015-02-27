@@ -37,13 +37,24 @@ public class FBList : MonoBehaviour {
 		leftOffset = offsets.w;
 	}
 	
-	public void ResetScrollbar()
+	public void Scrollbar(string action)
 	{
-		Debug.Log ("FBList.ResetScrollbar()");
-		scrollbar.value = 0f;
+		Debug.Log ("FBList.Scrollbar('"+action+"')");
+		switch (action)
+		{
+			case "reset":
+				scrollbar.value = 0f;
+				break;
+			case "restore":
+				scrollbar.value = lastY;
+				break;
+			default:
+				Debug.Log("FBList.Scrollbar(): UNKNOWN MODE '"+action+"'");
+				break;
+		}
 	}
 
-	public void CalcParams(int itemsCount, bool firstOpen)
+	public void CalcParams(int itemsCount)
 	{
 		listRect = gameObject.GetComponent<RectTransform> ().rect;
 		
@@ -59,9 +70,8 @@ public class FBList : MonoBehaviour {
 		workHeight = rectHeight - frameHeight + topOffset;
 		Debug.Log ("FBList.CalcParams(), workHeight: " + workHeight);
 		
+		lastY = y0;
 		y0 = Screen.height - topOffset;
-
-		if (10000000 != lastY && !firstOpen) y0 = lastY;
 	}
 
 	public void Move()

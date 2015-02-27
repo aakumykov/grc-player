@@ -78,6 +78,7 @@ public class FileBrowser : MonoBehaviour {
 	private string workPath = "";
 	private string oldPath = "";
 	private string lastPath = "";
+	private string scrollbarAction = "";
 
 	private string fileName;
 	private string filePath;
@@ -92,22 +93,7 @@ public class FileBrowser : MonoBehaviour {
 		fbList.Init (new Vector4 (30f, 50f, 50f, 0f));
 	}
 
-	public void Appear()
-	{
-		Debug.Log ("FileBrowser.Appear()");
-		
-		isDone = false;
-
-		if (""!=lastPath) initialPath = lastPath;
-		if (""==lastPath) fbList.ResetScrollbar ();
-
-		fbTitle.SetTitle ("Каталог \""+initialPath+"\"");
-		OpenDir(initialPath,filter);
-		
-		box.ChangeScreen ("files");
-	}
-
-	public void OpenDir(string reqPath, string filter)
+	public void OpenDir(string reqPath, string scrollbarAction, string filter)
 	{
 		Debug.Log ("FileBrowser.OpenDir('"+reqPath+"','"+filter+"')");
 
@@ -119,14 +105,14 @@ public class FileBrowser : MonoBehaviour {
 		if (".."==reqPath)
 		{
 			workPath = Regex.Replace(currentPath,"[^/]+/?$","");
-			fbList.ResetScrollbar ();
 		}
 		else
 		{
-			//workPath = currentPath + reqPath;
 			workPath = reqPath;
 		}
 		Debug.Log ("workPath: "+workPath);
+
+		fbList.Scrollbar(scrollbarAction);
 
 		oldPath = currentPath;
 		currentPath = workPath;
@@ -137,6 +123,46 @@ public class FileBrowser : MonoBehaviour {
 		string[][] list = fsReader.GetList (workPath,filter);
 
 		DisplayList (list);
+	}
+
+	public void Appear()
+	{
+		Debug.Log ("FileBrowser.Appear()");
+		
+		isDone = false;
+		
+		if ("" == lastPath)
+		{
+			scrollbarAction = "reset";
+		} 
+		else 
+		{
+			initialPath = lastPath;
+			scrollbarAction = "restore";
+		}
+		
+		fbTitle.SetTitle ("Каталог \""+initialPath+"\"");
+		OpenDir(initialPath,scrollbarAction,filter);
+		
+		box.ChangeScreen ("files");
+	}
+	
+	public void FilePick(bool isDir, string path)
+	{
+		Debug.Log ("FileBrowser.FilePick('" + path + "')");
+		
+		if (isDir)
+		{
+			if (".."==path) scrollbarAction = "restore";
+			else scrollbarAction = "reset";
+			OpenDir(path,scrollbarAction,filter);
+		}
+		else
+		{
+			filePath = path;
+			fileName = path;
+			isDone = true;
+		}
 	}
 
 	private void DisplayList(string[][] list)
@@ -211,22 +237,6 @@ public class FileBrowser : MonoBehaviour {
 	{
 		//Debug.Log ("FileBrowser.IsFileSelected()");
 		return isDone;
-	}
-
-	public void FilePick(bool isDir, string path)
-	{
-		Debug.Log ("FileBrowser.FilePick('" + path + "')");
-
-		if (isDir)
-		{
-			OpenDir(path,filter);
-		}
-		else
-		{
-			filePath = path;
-			fileName = path;
-			isDone = true;
-		}
 	}
 
 	public string File()
