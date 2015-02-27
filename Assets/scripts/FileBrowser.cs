@@ -74,7 +74,6 @@ public class FileBrowser : MonoBehaviour {
 	public string filter = "*";
 	private string currentPath = "";
 	private string workPath = "";
-	private string lastPath = "";
 	private string fileName;
 	private string filePath;
 	private bool isDone = false;
@@ -91,7 +90,10 @@ public class FileBrowser : MonoBehaviour {
 	private float leftOffset = 0f;
 
 	private float y0;
+
 	private float lastY;
+	private float lastScroll;
+	private string lastPath = "";
 
 	void Awake()
 	{
@@ -111,6 +113,8 @@ public class FileBrowser : MonoBehaviour {
 
 	public void CalcParams(int itemsCount)
 	{
+		Debug.Log ("FBList.CalcParams(), screen: " + Screen.width + "," + Screen.height);
+
 		listRect = gameObject.GetComponent<RectTransform> ().rect;
 		
 		itemHeight = FindObjectOfType<FBListItem> ().GetComponent<RectTransform>().rect.height;
@@ -125,10 +129,10 @@ public class FileBrowser : MonoBehaviour {
 		workHeight = rectHeight - frameHeight + topOffset;
 		Debug.Log ("FBList.CalcParams(), workHeight: " + workHeight);
 
-		Debug.Log ("FBList.CalcParams(), fbList.transform.position.x: " + fbList.transform.position.x);
-		Debug.Log ("FBList.CalcParams(), fbList.transform.position.y: " + fbList.transform.position.y);
+		Debug.Log ("FBList.CalcParams(), fbList.x,y: "+fbList.transform.position.x+","+fbList.transform.position.y);
 
 		y0 = Screen.height - topOffset;
+		Debug.Log ("FBList.CalcParams(), y0: "+y0);
 	}
 
 	public void OpenDir(string reqPath, string filter)
@@ -160,14 +164,68 @@ public class FileBrowser : MonoBehaviour {
 		DisplayList (list);
 	}
 
+	private void DisplayList(string[][] list)
+	{
+		Debug.Log ("FileBrowser.DisplayList()");
+		
+		// Получение объекта
+		GameObject[] listItems = GameObject.FindGameObjectsWithTag ("FBListItem");
+		GameObject initialListItem = listItems[0];
+		
+		// Удаление старого списка, кроме 1-ого элемента
+		for(int i=1; i<listItems.Length; i+=1)
+		{
+			Destroy(listItems[i]);
+		}
+		
+		// Создание нового списка
+		initialListItem.GetComponent<FBListItem> ().Fill (true,"..");
+		
+		string[] dirs = new string[list[0].Length];
+		string[] files = new string[list[1].Length];
+		list[0].CopyTo (dirs, 0);
+		list[1].CopyTo (files, 0);
+		
+		int y = -30;
+		int dY = 30;
+		
+		for (int i=0; i<dirs.Length; i+=1)
+		{
+			string name = dirs[i];
+			GameObject newItem = Instantiate(
+				initialListItem,
+				new Vector3(0,y,0),
+				new Quaternion()
+				) as GameObject;
+			newItem.GetComponent<FBListItem>().Fill(true,name);
+			newItem.transform.SetParent(fbList.transform,false);
+			y -= dY;
+		}
+		
+		for (int i=0; i<files.Length; i+=1)
+		{
+			string name = files[i];
+			GameObject newItem = Instantiate(
+				initialListItem,
+				new Vector3(0,y,0),
+				new Quaternion()
+				) as GameObject;
+			newItem.GetComponent<FBListItem>().Fill(false,name);
+			newItem.transform.SetParent(fbList.transform,false);
+			y -= dY;
+		}
+		
+		CalcParams (dirs.Length + files.Length);
+	}
+
 	public void MoveList()
 	{
 		Debug.Log ("FileBrowser.MoveList(scrollbar.value:"+scrollbar.value+")");
 		
 		float deltaHeight = scrollbar.value * workHeight;
+		Debug.Log ("FileBrowser.MoveList(), deltaHeight: " + deltaHeight);
 		
 		float newY = y0 + deltaHeight;
-		
 		Debug.Log ("FileBrowser.MoveList(), newY: " + newY+", x: "+fbList.transform.position.x);
 		
 		fbList.transform.position = new Vector3 (fbList.transform.position.x, newY, 0f);
@@ -201,66 +259,20 @@ public class FileBrowser : MonoBehaviour {
 		}
 	}
 
-	private void DisplayList(string[][] list)
+	private void SaveState()
 	{
-		Debug.Log ("FileBrowser.DisplayList()");
-
-		// Получение объекта
-		GameObject[] listItems = GameObject.FindGameObjectsWithTag ("FBListItem");
-		GameObject initialListItem = listItems[0];
-
-		// Удаление старого списка, кроме 1-ого элемента
-		for(int i=1; i<listItems.Length; i+=1)
-		{
-			Destroy(listItems[i]);
-		}
-
-		// Создание нового списка
-		initialListItem.GetComponent<FBListItem> ().Fill (true,"..");
-
-		string[] dirs = new string[list[0].Length];
-		string[] files = new string[list[1].Length];
-		list[0].CopyTo (dirs, 0);
-		list[1].CopyTo (files, 0);
-
-		int y = -30;
-		int dY = 30;
-
-		for (int i=0; i<dirs.Length; i+=1)
-		{
-			string name = dirs[i];
-			GameObject newItem = Instantiate(
-				initialListItem,
-				new Vector3(0,y,0),
-				new Quaternion()
-				) as GameObject;
-			newItem.GetComponent<FBListItem>().Fill(true,name);
-			newItem.transform.SetParent(fbList.transform,false);
-			y -= dY;
-		}
-
-		for (int i=0; i<files.Length; i+=1)
-		{
-			string name = files[i];
-			GameObject newItem = Instantiate(
-				initialListItem,
-				new Vector3(0,y,0),
-				new Quaternion()
-				) as GameObject;
-			newItem.GetComponent<FBListItem>().Fill(false,name);
-			newItem.transform.SetParent(fbList.transform,false);
-			y -= dY;
-		}
-		
-		CalcParams (dirs.Length + files.Length);
+		Debug.Log ("FileBrowser.SaveState()");
+		lastPath = workPath;
+		lastY = fbList.transform.position.y;
+		lastScroll = scrollbar.value;
 	}
 
-
-	public void Ok()
+	private void RestoreState()
 	{
-		Debug.Log ("FileBrowser.Ok()");
-		//newSerialNumber = 2;
-		//oldSerialNumber = 1;
+		Debug.Log ("FileBrowser.RestoreState()");
+		workPath = lastPath;
+		fbList.transform.position = new Vector3 (fbList.transform.position.x, lastY, 0f);
+		scrollbar.value = lastScroll;
 	}
 
 	public void Cancel()
