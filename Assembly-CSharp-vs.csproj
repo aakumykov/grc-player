@@ -50,7 +50,6 @@
      <Compile Include="Assets\scripts\BOXActions_old.cs" />
      <Compile Include="Assets\scripts\FBList.cs" />
      <Compile Include="Assets\scripts\FBListItem.cs" />
-     <Compile Include="Assets\scripts\FBList_old.cs" />
      <Compile Include="Assets\scripts\FBTitle.cs" />
      <Compile Include="Assets\scripts\FileBrowser.cs" />
      <Compile Include="Assets\scripts\MusicItemActions.cs" />

@@ -5,10 +5,7 @@ using System.Collections;
 public class FBList : MonoBehaviour {
 	
 	public Scrollbar scrollbar;
-	
-	private float x0;
-	private float y0;
-	
+
 	private Rect listRect;
 	private float rectHeight;
 	private float frameHeight;
@@ -20,6 +17,7 @@ public class FBList : MonoBehaviour {
 	private float bottomOffset = 0f;
 	private float leftOffset = 0f;
 
+	private float y0;
 	private float lastY = 10000000;
 	private float lastScroll = 0f;
 
