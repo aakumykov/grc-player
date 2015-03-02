@@ -63,7 +63,7 @@ public class FileBrowser : MonoBehaviour {
 
 	public BOXActions box;
 	public Player player;
-	public FBTitle fbTitle;
+	public GameObject fbTitle;
 	public GameObject fbFooter;
 	public GameObject fbList;
 	public Scrollbar scrollbar;
@@ -111,23 +111,24 @@ public class FileBrowser : MonoBehaviour {
 		leftOffset = offsets.w;
 	}
 
-	public void OpenDir(string reqPath, string filter)
+	public void OpenDir(string path, string filter)
 	{
-		Debug.Log ("FileBrowser.OpenDir('"+reqPath+"','"+filter+"')");
+		Debug.Log ("FileBrowser.OpenDir('"+path+"','"+filter+"')");
 
-		/*reqPath = reqPath.Replace ("\\", "/");
-		reqPath = reqPath.TrimEnd ('/');
-		reqPath = reqPath.TrimStart ('/');
-		Debug.Log ("Trimmed path: " + reqPath);*/
+		/*path = path.Replace ("\\", "/");
+		path = path.TrimEnd ('/');
+		path = path.TrimStart ('/');
+		Debug.Log ("Trimmed path: " + path);*/
 
-		if (".."==reqPath)
+		// Обработка пути
+		if (".."==path)
 		{
 			workPath = Regex.Replace(currentPath,"[^/]+/?$","");
 			displayMode = "restore";
 		}
 		else
 		{
-			workPath = reqPath;
+			workPath = path;
 			displayMode="calc";
 		}
 		Debug.Log ("FileBrowser.OpenDir(), workPath: "+workPath);
@@ -135,11 +136,13 @@ public class FileBrowser : MonoBehaviour {
 		currentPath = workPath;
 		lastPath = workPath;
 
-		fbTitle.SetTitle ("Каталог: "+currentPath);
-
+		// Чтение каталога
 		string[][] list = fsReader.GetList (workPath,filter);
 
-		SaveState ();
+		// Установка заголовка
+		SetTitle ("Каталог: "+currentPath);
+
+		//SaveState ();
 
 		DisplayList (list,displayMode);
 	}
@@ -147,7 +150,7 @@ public class FileBrowser : MonoBehaviour {
 	private void DisplayList(string[][] list, string mode)
 	{
 		Debug.Log ("FileBrowser.DisplayList()");
-		
+
 		// Получение объекта
 		GameObject[] listItems = GameObject.FindGameObjectsWithTag ("FBListItem");
 		GameObject initialListItem = listItems[0];
@@ -194,21 +197,15 @@ public class FileBrowser : MonoBehaviour {
 			newItem.transform.SetParent(fbList.transform,false);
 			y -= dY;
 		}
-		
-		if ("restore"==mode) {
-			Debug.Log ("FileBrowser.DisplayList(), RESTORE MODE");
-			scrollbar.value = lastScroll;
-		}
-		else {
-			Debug.Log ("FileBrowser.DisplayList(), CALC MODE");
-			CalcParams (dirs.Length + files.Length);
-			scrollbar.value = 0f;
-		}
+
+		SetFBParams (dirs.Length + files.Length);
+
+		scrollbar.value = 0f;
 	}
 
-	public void CalcParams(int itemsCount)
+	public void SetFBParams(int itemsCount)
 	{
-		Debug.Log ("FBList.CalcParams(), screen: " + Screen.width + "," + Screen.height);
+		Debug.Log ("FBList.SetFBParams(), screen: " + Screen.width + "," + Screen.height);
 		
 		listRect = gameObject.GetComponent<RectTransform> ().rect;
 		
@@ -216,18 +213,18 @@ public class FileBrowser : MonoBehaviour {
 		
 		rectHeight = itemHeight * itemsCount;
 		listRect.height = rectHeight;
-		Debug.Log ("FBList.CalcParams(), rectHeight="+rectHeight+" (itemsCount="+itemsCount+")");
+		Debug.Log ("FBList.SetFBParams(), rectHeight="+rectHeight+" (itemsCount="+itemsCount+")");
 		
 		frameHeight = Screen.height - topOffset - bottomOffset;
-		Debug.Log ("FBList.CalcParams(), frameHeight=" + frameHeight+" (Screen.height= "+Screen.height+")");
+		Debug.Log ("FBList.SetFBParams(), frameHeight=" + frameHeight+" (Screen.height= "+Screen.height+")");
 		
 		workHeight = rectHeight - frameHeight + topOffset;
-		Debug.Log ("FBList.CalcParams(), workHeight: " + workHeight);
+		Debug.Log ("FBList.SetFBParams(), workHeight: " + workHeight);
 		
-		Debug.Log ("FBList.CalcParams(), fbList.x,y: "+fbList.transform.position.x+","+fbList.transform.position.y);
+		Debug.Log ("FBList.SetFBParams(), fbList.x,y: "+fbList.transform.position.x+","+fbList.transform.position.y);
 		
 		y0 = Screen.height - topOffset;
-		Debug.Log ("FBList.CalcParams(), y0: "+y0);
+		Debug.Log ("FBList.SetFBParams(), y0: "+y0);
 	}
 
 	public void MoveList()
@@ -267,6 +264,12 @@ public class FileBrowser : MonoBehaviour {
 			fileName = path;
 			isDone = true;
 		}
+	}
+
+	public void SetTitle(string aTitle)
+	{
+		Debug.Log ("FileBrowser.SetTitle('"+aTitle+"')");
+		fbTitle.GetComponentInChildren<Text>().text = aTitle;
 	}
 
 	private void SaveState()
