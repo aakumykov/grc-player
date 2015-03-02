@@ -109,11 +109,19 @@ public class FileBrowser : MonoBehaviour {
 		leftOffset = offsets.w;
 	}
 
-	public void OpenDir(string path, string filter)
+	public void OpenDir(string path, string filter, bool restoreState)
 	{
 		Debug.Log ("FileBrowser.OpenDir('"+path+"','"+filter+"')");
 
-		if (".."!=path) SaveState ();
+		if (restoreState)
+		{
+			if (""!=lastPath) path = lastPath;
+			else path = initialPath;
+		}
+		else
+		{
+			SaveState();
+		}
 
 		workPath = ProcessPath (path);
 		Debug.Log ("PATH: " + workPath);
@@ -125,8 +133,6 @@ public class FileBrowser : MonoBehaviour {
 		SetFBParams (listLength, (".."==path));
 
 		SetTitle ("Каталог: "+workPath);
-
-		if (".."==path) SaveState();
 	}
 
 	private string ProcessPath(string path)
@@ -258,7 +264,7 @@ public class FileBrowser : MonoBehaviour {
 		
 		isDone = false;
 		
-		OpenDir(initialPath,filter);
+		OpenDir(lastPath,filter,true);
 		
 		box.ChangeScreen ("files");
 	}
@@ -270,7 +276,7 @@ public class FileBrowser : MonoBehaviour {
 		if (isDir)
 		{
 			Debug.Log("FileBrowser.FilePick(), IS DIR");
-			OpenDir(path,filter);
+			OpenDir(path,filter,(".."==path));
 		}
 		else
 		{
