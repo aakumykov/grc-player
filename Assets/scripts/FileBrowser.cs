@@ -72,7 +72,6 @@ public class FileBrowser : MonoBehaviour {
 
 	public string initialPath = "c:/";
 	public string filter = "*";
-	private string currentPath = "";
 	private string workPath = "";
 	private string fileName;
 	private string filePath;
@@ -90,10 +89,9 @@ public class FileBrowser : MonoBehaviour {
 	private float leftOffset = 0f;
 	private float y0;
 
-	private string displayMode;
-	private float lastY;
-	private float lastScroll;
 	private string lastPath = "";
+	private float lastScroll;
+
 
 	void Awake()
 	{
@@ -115,41 +113,47 @@ public class FileBrowser : MonoBehaviour {
 	{
 		Debug.Log ("FileBrowser.OpenDir('"+path+"','"+filter+"')");
 
+		if (".."!=path) SaveState ();
+
+		workPath = ProcessPath (path);
+		Debug.Log ("PATH: " + workPath);
+
+		string[][] list = fsReader.GetList (workPath,filter);
+
+		int listLength = ProcessList (list);
+		
+		SetFBParams (listLength, (".."==path));
+
+		SetTitle ("Каталог: "+workPath);
+
+		if (".."==path) SaveState();
+	}
+
+	private string ProcessPath(string path)
+	{
+		Debug.Log ("FileBrowser.ProcessPath('"+path+"')");
+
 		/*path = path.Replace ("\\", "/");
 		path = path.TrimEnd ('/');
 		path = path.TrimStart ('/');
 		Debug.Log ("Trimmed path: " + path);*/
 
-		// Обработка пути
 		if (".."==path)
 		{
-			workPath = Regex.Replace(currentPath,"[^/]+/?$","");
-			displayMode = "restore";
+			path = lastPath;
+			workPath = Regex.Replace(path,"[^/]+/?$","");
 		}
 		else
 		{
 			workPath = path;
-			displayMode="calc";
 		}
-		Debug.Log ("FileBrowser.OpenDir(), workPath: "+workPath);
-		
-		currentPath = workPath;
-		lastPath = workPath;
 
-		// Чтение каталога
-		string[][] list = fsReader.GetList (workPath,filter);
-
-		// Установка заголовка
-		SetTitle ("Каталог: "+currentPath);
-
-		//SaveState ();
-
-		DisplayList (list,displayMode);
+		return workPath;
 	}
 
-	private void DisplayList(string[][] list, string mode)
+	private int ProcessList(string[][] list)
 	{
-		Debug.Log ("FileBrowser.DisplayList()");
+		Debug.Log ("FileBrowser.ProcessList()");
 
 		// Получение объекта
 		GameObject[] listItems = GameObject.FindGameObjectsWithTag ("FBListItem");
@@ -198,14 +202,12 @@ public class FileBrowser : MonoBehaviour {
 			y -= dY;
 		}
 
-		SetFBParams (dirs.Length + files.Length);
-
-		scrollbar.value = 0f;
+		return dirs.Length + files.Length;
 	}
 
-	public void SetFBParams(int itemsCount)
+	public void SetFBParams(int itemsCount, bool restoreView)
 	{
-		Debug.Log ("FBList.SetFBParams(), screen: " + Screen.width + "," + Screen.height);
+		//Debug.Log ("FBList.SetFBParams(), screen: " + Screen.width + "," + Screen.height);
 		
 		listRect = gameObject.GetComponent<RectTransform> ().rect;
 		
@@ -213,18 +215,30 @@ public class FileBrowser : MonoBehaviour {
 		
 		rectHeight = itemHeight * itemsCount;
 		listRect.height = rectHeight;
-		Debug.Log ("FBList.SetFBParams(), rectHeight="+rectHeight+" (itemsCount="+itemsCount+")");
+		//Debug.Log ("FBList.SetFBParams(), rectHeight="+rectHeight+" (itemsCount="+itemsCount+")");
 		
 		frameHeight = Screen.height - topOffset - bottomOffset;
-		Debug.Log ("FBList.SetFBParams(), frameHeight=" + frameHeight+" (Screen.height= "+Screen.height+")");
+		//Debug.Log ("FBList.SetFBParams(), frameHeight=" + frameHeight+" (Screen.height= "+Screen.height+")");
 		
 		workHeight = rectHeight - frameHeight + topOffset;
-		Debug.Log ("FBList.SetFBParams(), workHeight: " + workHeight);
-		
-		Debug.Log ("FBList.SetFBParams(), fbList.x,y: "+fbList.transform.position.x+","+fbList.transform.position.y);
+		//Debug.Log ("FBList.SetFBParams(), workHeight: " + workHeight);
+		//Debug.Log ("FBList.SetFBParams(), fbList.x,y: "+fbList.transform.position.x+","+fbList.transform.position.y);
 		
 		y0 = Screen.height - topOffset;
-		Debug.Log ("FBList.SetFBParams(), y0: "+y0);
+		//Debug.Log ("FBList.SetFBParams(), y0: "+y0);
+		
+
+		if (restoreView)
+		{
+			Debug.Log ("FBList.SetFBParams(), RESTORE, lastScroll="+lastScroll);
+			scrollbar.value = lastScroll;
+		}
+		else
+		{
+			Debug.Log ("FBList.SetFBParams(), RESET");
+			scrollbar.value = 0f;
+		}
+
 	}
 
 	public void MoveList()
@@ -276,16 +290,8 @@ public class FileBrowser : MonoBehaviour {
 	{
 		Debug.Log ("FileBrowser.SaveState()");
 		lastPath = workPath;
-		lastY = fbList.transform.position.y;
 		lastScroll = scrollbar.value;
-	}
-
-	private void RestoreState()
-	{
-		Debug.Log ("FileBrowser.RestoreState()");
-		//workPath = lastPath;
-		//fbList.transform.position = new Vector3 (fbList.transform.position.x, lastY, 0f);
-		scrollbar.value = lastScroll;
+		Debug.Log ("FileBrowser.SaveState(), lastScroll: "+lastScroll);
 	}
 
 	public void Cancel()
