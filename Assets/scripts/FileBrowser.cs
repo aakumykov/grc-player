@@ -174,14 +174,15 @@ public class FileBrowser : MonoBehaviour {
 				string tempPath = currentPath;
 				float tempScroll = currentScroll;
 				
-				currentPath = lastPath;
-				currentScroll = lastScroll;
+				currentPath = GetParentPath(currentPath);
+				currentScroll = initialScroll;
 				
 				lastPath = tempPath;
 				lastScroll = tempScroll;
 			}
 			else
 			{
+				Debug.Log ("FileBrowser.OpenDir(), SECOND");
 				lastPath = currentPath;
 				lastScroll = scrollbar.value;
 				
@@ -190,18 +191,16 @@ public class FileBrowser : MonoBehaviour {
 			}
 		}
 		
-		path = ProcessPath(currentPath);
-		
-		string[][] list = fsReader.GetList(path,filter);
+		string[][] list = fsReader.GetList(currentPath,filter);
 		
 		int listLength = ProcessList(list);
 		
 		SetFBParams(listLength);
 	}
 
-	private string ProcessPath(string path)
+	private string GetParentPath(string path)
 	{
-		Debug.Log ("FileBrowser.ProcessPath('"+path+"')");
+		Debug.Log ("FileBrowser.GetParentPath('"+path+"')");
 
 		/*path = path.Replace ("\\", "/");
 		path = path.TrimEnd ('/');
@@ -269,7 +268,7 @@ public class FileBrowser : MonoBehaviour {
 
 	public void SetFBParams(int itemsCount)
 	{
-		//Debug.Log ("FBList.SetFBParams(), screen: " + Screen.width + "," + Screen.height);
+		Debug.Log ("FBList.SetFBParams(), itemsCount: "+itemsCount+", screen: " + Screen.width + "," + Screen.height);
 		
 		listRect = gameObject.GetComponent<RectTransform> ().rect;
 		

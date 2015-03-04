@@ -63,7 +63,7 @@ public class PlaylistItemActions : MonoBehaviour {
 	{
 		Debug.Log("PlaylistItemActions.LoadSound('"+fileName+"')");
 		
-		fileName = "file://" + fileName;
+		fileName = "file:///" + fileName;
 		//Debug.Log (fileName);
 
 		w = new WWW(fileName);
