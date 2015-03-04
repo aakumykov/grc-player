@@ -90,19 +90,9 @@ public class FileBrowser : MonoBehaviour {
 
 
 	public string initialPath = "";
-	private float initialScroll = 0;
-	
 	private string currentPath = "";
-	private float currentScroll = 0;
-	
 	private string lastPath = "";
-	private float lastScroll = 0;
-	
-	//private string tempPath = "";
-	//private float tempScroll = 0;
-	
-	public string[] pathHistory = new string[1000];
-	private float[] scrollHistory = new float[1000];
+	//public string[] pathHistory = new string[1000];
 
 
 
@@ -150,46 +140,43 @@ public class FileBrowser : MonoBehaviour {
 		}
 	}
 
-	public void OpenDir(bool firstOpen, string path, string filter)
+	public void OpenDir(bool buttonOpen, string path, string filter)
 	{
 		Debug.Log ("FileBrowser.OpenDir('"+path+"','"+filter+"')");
 		
-		if (firstOpen) 
+		if (buttonOpen)
 		{
-			Debug.Log ("FileBrowser.OpenDir(), FIRST OPEN");
-			currentPath = initialPath;
-			currentScroll = initialScroll;
+			if (""==lastPath)
+			{
+				Debug.Log ("FileBrowser.OpenDir(), FIRST OPEN, initial");
+				currentPath = initialPath;
+			}
+			else
+			{
+				Debug.Log ("FileBrowser.OpenDir(), FIRST OPEN, not initial");
+				currentPath = lastPath;
+			}
 			
-			lastPath = initialPath;
-			lastScroll = initialScroll;
-			
-			Debug.Log ("FileBrowser.OpenDir(), currentPath: "+currentPath);
-			Debug.Log ("FileBrowser.OpenDir(), lastPath: "+lastPath);
+			Debug.Log ("FileBrowser.OpenDir(), currentPath 1: "+currentPath);
+			Debug.Log ("FileBrowser.OpenDir(), lastPath 1: "+lastPath);
 		}
 		else
 		{
 			if (".."==path)
 			{
 				Debug.Log ("FileBrowser.OpenDir(), UP");
-				string tempPath = currentPath;
-				float tempScroll = currentScroll;
-				
 				currentPath = GetParentPath(currentPath);
-				currentScroll = initialScroll;
-				
-				lastPath = tempPath;
-				lastScroll = tempScroll;
 			}
 			else
 			{
-				Debug.Log ("FileBrowser.OpenDir(), SECOND");
-				lastPath = currentPath;
-				lastScroll = scrollbar.value;
-				
-				currentPath = path;
-				currentScroll = initialScroll;
+				Debug.Log ("FileBrowser.OpenDir(), SECOND");				
+				currentPath = path;;
 			}
 		}
+		
+		lastPath = currentPath;
+		
+		SetTitle(currentPath);
 		
 		string[][] list = fsReader.GetList(currentPath,filter);
 		
@@ -288,7 +275,7 @@ public class FileBrowser : MonoBehaviour {
 		y0 = Screen.height - topOffset;
 		//Debug.Log ("FBList.SetFBParams(), y0: "+y0);
 		
-		scrollbar.value = currentScroll;
+		scrollbar.value = 0f;
 	}
 
 	public void MoveList()
@@ -306,14 +293,6 @@ public class FileBrowser : MonoBehaviour {
 	{
 		Debug.Log ("FileBrowser.SetTitle('"+aTitle+"')");
 		fbTitle.GetComponentInChildren<Text>().text = aTitle;
-	}
-
-	private void SaveState()
-	{
-		//Debug.Log ("FileBrowser.SaveState()");
-		//lastPath = workPath;
-		//lastScroll = scrollbar.value;
-		//Debug.Log ("FileBrowser.SaveState(), lastScroll: "+lastScroll);
 	}
 
 	public void Cancel()
