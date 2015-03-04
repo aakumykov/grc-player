@@ -8,7 +8,11 @@ public class PlaylistItemActions : MonoBehaviour {
 	public PlaylistScreenActions playlistScreen;
 	public FileBrowser fileBrowser;
 
-	public GameObject soundStatus;
+	public Image soundStatus;
+	public Sprite inactiveIcon;
+	public Sprite waitIcon;
+	public Sprite readyIcon;
+	
 	public InputField soundPath;
 	public Button soundSelectButtton;
 
@@ -71,10 +75,12 @@ public class PlaylistItemActions : MonoBehaviour {
 		{
 			//fileLoadTime += fileLoadTimeStep;
 			//Debug.Log("LoadSound: still loading '"+fileName+"'");
+			SetStatus("wait");
 			yield return new WaitForSeconds(fileLoadTimeStep);
 		}
 		//Debug.Log("PlaylistItemActions.LoadSound: LOAD COMPLETE '"+fileName+"', "+fileLoadTime+" sec ");
 		Debug.Log("PlaylistItemActions.LoadSound(), COMPLETE '"+fileName+"'");
+		SetStatus("ready");
 		
 		clip = w.audioClip;
 		//Debug.Log ("PlaylistItemActions.LoadSound(), clip: "+clip);
@@ -88,5 +94,13 @@ public class PlaylistItemActions : MonoBehaviour {
 	{
 		Debug.Log ("PlaylistItemActions.SetSoundPath('" + path + "')");
 		soundPath.text = path;
+	}
+	
+	public void SetStatus(string mode)
+	{
+		Debug.Log ("PlaylistItemActions.SetStatus('"+mode+"')");
+		if ("wait"==mode) soundStatus.sprite = waitIcon;
+		else if ("ready"==mode) soundStatus.sprite = readyIcon;
+		else soundStatus.sprite = inactiveIcon;
 	}
 }
