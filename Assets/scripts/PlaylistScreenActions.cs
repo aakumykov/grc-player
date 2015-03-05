@@ -20,7 +20,7 @@ public class PlaylistScreenActions : MonoBehaviour {
 							new Quaternion ()
 				) as GameObject;
 
-		item.transform.SetParent (transform, false);
+		//item.transform.SetParent (transform, false);
 
 		y -= dY;
 	}

@@ -7,8 +7,8 @@ public class PlaylistItemActions : MonoBehaviour {
 
 	public PlaylistScreenActions playlistScreen;
 	public FileBrowser fileBrowser;
+	public SoundStatus soundStatus;
 
-	public GameObject soundStatus;
 	public InputField soundPath;
 	public Button soundSelectButtton;
 
@@ -20,9 +20,11 @@ public class PlaylistItemActions : MonoBehaviour {
 	private float fileLoadTime = 0f;
 	private float fileLoadTimeStep = 0.1f;
 	
-	void Awake()
+	void Start()
 	{
-		//Debug.Log ("PlaylistItemActions.Awake()");
+		//Debug.Log ("@@@@@@@@@@@@@@ PlaylistItemActions.Start() @@@@@@@@@@@@@@@");
+		soundStatus.SetStatus ("inactive");
+		transform.SetParent (playlistScreen.transform, false);
 	}
 	
 	public void ChooseFile()
@@ -63,7 +65,7 @@ public class PlaylistItemActions : MonoBehaviour {
 	{
 		Debug.Log("PlaylistItemActions.LoadSound('"+fileName+"')");
 		
-		fileName = "file:///" + fileName;
+		fileName = fileBrowser.protocolPrefix + fileName;
 		//Debug.Log (fileName);
 
 		w = new WWW(fileName);
@@ -71,10 +73,12 @@ public class PlaylistItemActions : MonoBehaviour {
 		{
 			//fileLoadTime += fileLoadTimeStep;
 			//Debug.Log("LoadSound: still loading '"+fileName+"'");
+			soundStatus.SetStatus("wait");
 			yield return new WaitForSeconds(fileLoadTimeStep);
 		}
 		//Debug.Log("PlaylistItemActions.LoadSound: LOAD COMPLETE '"+fileName+"', "+fileLoadTime+" sec ");
 		Debug.Log("PlaylistItemActions.LoadSound(), COMPLETE '"+fileName+"'");
+		soundStatus.SetStatus("ready");
 		
 		clip = w.audioClip;
 		//Debug.Log ("PlaylistItemActions.LoadSound(), clip: "+clip);
@@ -88,5 +92,11 @@ public class PlaylistItemActions : MonoBehaviour {
 	{
 		Debug.Log ("PlaylistItemActions.SetSoundPath('" + path + "')");
 		soundPath.text = path;
+	}
+	
+	public void Remove()
+	{
+		Debug.Log ("PlaylistItemActions.Remove()");
+		Destroy (gameObject);
 	}
 }
