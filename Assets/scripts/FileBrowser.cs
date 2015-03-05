@@ -70,6 +70,7 @@ public class FileBrowser : MonoBehaviour {
 	
 	private FSReader fsReader;
 
+	public string protocolPrefix = "file://";
 	public string filter = "*";
 	//private string workPath = "";
 	private string fileName;
@@ -87,7 +88,6 @@ public class FileBrowser : MonoBehaviour {
 	private float bottomOffset = 0f;
 	private float leftOffset = 0f;
 	private float y0;
-
 
 	public string initialPath = "";
 	private string currentPath = "";

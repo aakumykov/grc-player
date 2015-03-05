@@ -64,6 +64,7 @@
      <Compile Include="Assets\scripts\ProgressBarActions.cs" />
      <Compile Include="Assets\scripts\SettingsItemActions_old.cs" />
      <Compile Include="Assets\scripts\SettingsScreenActions_old.cs" />
+     <Compile Include="Assets\scripts\SoundStatus.cs" />
      <None Include="Assets\BUGS.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.3/UnityEngine.UI.dll</HintPath>
