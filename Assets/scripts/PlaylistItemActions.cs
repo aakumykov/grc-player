@@ -94,5 +94,9 @@ public class PlaylistItemActions : MonoBehaviour {
 		soundPath.text = path;
 	}
 	
-
+	public void Remove()
+	{
+		Debug.Log ("PlaylistItemActions.Remove()");
+		Destroy (gameObject);
+	}
 }
