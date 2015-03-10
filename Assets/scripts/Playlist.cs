@@ -11,12 +11,13 @@ public class Playlist : MonoBehaviour {
 	{
 		private int index;
 		private string title;
+		private string path;
 		private AudioClip clip;
 		
-		public ListItem(int anIndex, string aTitle, AudioClip aClip)
+		public ListItem(int anIndex, string aPath, AudioClip aClip)
 		{
 			index = anIndex;
-			title = aTitle;
+			title = aPath;
 			clip = aClip;
 		}
 		
@@ -24,7 +25,7 @@ public class Playlist : MonoBehaviour {
 			return index;
 		}
 		public string Title() {
-			return title;
+			return path;
 		}
 		public AudioClip Clip() {
 			return clip;
@@ -39,18 +40,33 @@ public class Playlist : MonoBehaviour {
 	}
 
 
-	public void Add(string title, AudioClip clip)
+	public int Add(string path, AudioClip clip)
 	{
-		Debug.Log ("Playlist.Add("+listIndex+", '"+title+"', '"+clip+"')");
+		Debug.Log ("Playlist.Add("+path+"', '"+clip+"')");
 		//Debug.Log ("Playlist.Add(), clip: "+clip);
 		//Debug.Log ("Playlist.Add(), clip length: "+clip.length);
 
 		list[listIndex] = new ListItem(
 								listIndex,
-								title,
+								path,
 								clip
 							);
+
+		int currentIndex = listIndex;
 		listIndex += 1;
+		return currentIndex;
+	}
+
+	public void Del(int index)
+	{
+		Debug.Log ("Playlist.Del(" + index + ")");
+
+	}
+
+	public void Change(int index, string path, AudioClip clip)
+	{
+		Debug.Log ("Playlist.Change(" + index + ")");
+
 	}
 
 	

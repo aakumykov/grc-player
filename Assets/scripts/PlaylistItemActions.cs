@@ -77,7 +77,7 @@ public class PlaylistItemActions : MonoBehaviour {
 			yield return new WaitForSeconds(fileLoadTimeStep);
 		}
 		//Debug.Log("PlaylistItemActions.LoadSound: LOAD COMPLETE '"+fileName+"', "+fileLoadTime+" sec ");
-		Debug.Log("PlaylistItemActions.LoadSound(), COMPLETE '"+fileName+"'");
+		Debug.Log("PlaylistItemActions.LoadSound(), load complete '"+fileName+"'");
 		soundStatus.SetStatus("ready");
 		
 		clip = w.audioClip;
@@ -85,7 +85,8 @@ public class PlaylistItemActions : MonoBehaviour {
 		//Debug.Log ("PlaylistItemActions.LoadSound(), clip length: "+clip.length);
 		//Debug.Log ("PlaylistItemActions.LoadSound(), clip frequency: "+clip.frequency);
 		
-		playlist.Add (fileName,clip);
+		int index = playlist.Add (fileName,clip);
+		Debug.Log ("PlaylistItemActions.LoadSound(), added index: "+index);
 	}
 
 	public void SetSoundPath(string path)
