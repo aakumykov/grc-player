@@ -32,6 +32,8 @@ public class MusicScreenActions : MonoBehaviour {
 		}
 
 		// Создаю новый
+		Debug.Log ("playlist size = " + playlist.Size ());
+
 		int dY = 110;
 		int y = -dY;
 		for (int i=1; i<playlist.Size(); i+=1)

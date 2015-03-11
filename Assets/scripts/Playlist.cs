@@ -75,22 +75,26 @@ public class Playlist : MonoBehaviour {
 
 	public bool Change(int index, string path, AudioClip clip)
 	{
-		Debug.Log ("Playlist.Change(" + index + ")");
+		Debug.Log ("Playlist.Change(" + index + ", "+path+", "+clip+")");
 
-		if (null!=list[index])
-		{
+		/*if (null!=list[index])
+		{*/
 			list[index] = new ListItem(
-					listIndex,
+					index,
 					path,
 					clip
 				);
-			return true;
-		}
+
+		ListItem item = list[index];
+		Debug.Log (item.Title()+", "+item.Clip());
+
+		return true;
+		/*}
 		else
 		{
 			Debug.Log("Playlist.Change(): no such index "+index);
 			return false;
-		}
+		}*/
 	}
 
 	public ListItem[] GetList()
