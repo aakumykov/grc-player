@@ -280,13 +280,13 @@ public class FileBrowser : MonoBehaviour {
 
 	public void MoveList()
 	{
-		Debug.Log ("*** MOVE LIST ***");
+		//Debug.Log ("*** MOVE LIST ***");
 
 		float deltaHeight = scrollbar.value * workHeight;
 		float newY = y0 + deltaHeight;
 		fbList.transform.position = new Vector3 (fbList.transform.position.x, newY, 0f);
 
-		Debug.Log ("FileBrowser.MoveList(scrollbar.value:"+scrollbar.value+"), deltaHeight: " + deltaHeight+", newY: " + newY);
+		//Debug.Log ("FileBrowser.MoveList(scrollbar.value:"+scrollbar.value+"), deltaHeight: " + deltaHeight+", newY: " + newY);
 	}
 
 	public void SetTitle(string aTitle)

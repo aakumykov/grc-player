@@ -23,7 +23,9 @@ public class PlaylistItemActions : MonoBehaviour {
 	
 	void Start()
 	{
-		//Debug.Log ("@@@@@@@@@@@@@@ PlaylistItemActions.Start() @@@@@@@@@@@@@@@");
+		//Debug.Log ("@@@@@@@@@@@@@@ PlaylistItemActions.Start() @@@@@@@@@@@@@@@, "+clip);
+		//Debug.Log ("@@@@@@@@@@@@@@ PlaylistItemActions.Start() @@@@@@@@@@@@@@@, "+(clip.length==null));
+		//Debug.Log ("@@@@@@@@@@@@@@ PlaylistItemActions.Start() @@@@@@@@@@@@@@@, "+index);
 		soundStatus.SetStatus ("inactive");
 		transform.SetParent (playlistScreen.transform, false);
 	}
@@ -73,11 +75,17 @@ public class PlaylistItemActions : MonoBehaviour {
 		clip = w.audioClip;
 
 		soundStatus.SetStatus("ready");
-		
-		int newIndex = playlist.Add (fileName,clip);
-		Debug.Log ("PlaylistItemActions.LoadSound(), added index: "+index);
 
-		index = newIndex;
+		if (IsFilled())
+		{
+			Debug.Log("PlaylistItemActions.LoadSound(): changing item "+index);
+			playlist.Change(index,filePath,clip);
+		}
+		else
+		{
+			index = playlist.Add (fileName,clip);
+			Debug.Log ("PlaylistItemActions.LoadSound(), added new item "+index);
+		}
 	}
 
 	public void SetSoundPath(string path)
@@ -97,4 +105,19 @@ public class PlaylistItemActions : MonoBehaviour {
 		return index;
 	}
 
+	public bool IsFilled()
+	{
+		//Debug.Log ("PlaylistItemActions.IsFilled(), index: "+index);
+		//Debug.Log ("PlaylistItemActions.IsFilled(), clip: "+clip);
+		if (null == clip.length) 
+		{
+			Debug.Log ("PlaylistItemActions.IsFilled(), FILLED");
+			return true;
+		}
+		else 
+		{
+			Debug.Log ("PlaylistItemActions.IsFilled(), EMPTY");
+			return false;
+		}
+	}
 }
