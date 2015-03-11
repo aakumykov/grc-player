@@ -14,6 +14,7 @@ public class PlaylistItemActions : MonoBehaviour {
 
 	public Playlist playlist;
 
+	private int index;
 	private string filePath;
 	private AudioClip clip;
 	private WWW w;
@@ -30,29 +31,24 @@ public class PlaylistItemActions : MonoBehaviour {
 	public void ChooseFile()
 	{
 		Debug.Log("PlaylistItemActions.ChooseFile()");
-		
-		//string fileName = soundPath.GetComponentInChildren<Text>().text;
-		//StartCoroutine( LoadSound(fileName) );
-
-		StartCoroutine (ChooseFileStart ());
+		StartCoroutine (ChooseFileCoroutine ());
 	}
 
-
-	IEnumerator ChooseFileStart()
+	IEnumerator ChooseFileCoroutine()
 	{
-		Debug.Log("PlaylistItemActions.ChooseFileStart()");
+		Debug.Log("PlaylistItemActions.ChooseFileCoroutine()");
 
 		fileBrowser.Appear ();
 
 		while ( ! fileBrowser.IsDone() )
 		{
-			//Debug.Log("ChooseFileStart(): file not selected yet");
+			//Debug.Log("ChooseFileCoroutine(): file not selected yet");
 			yield return new WaitForSeconds(1);
 		}
-		Debug.Log("PlaylistItemActions.ChooseFileStart(): file is selected");
+		Debug.Log("PlaylistItemActions.ChooseFileCoroutine(): file is selected");
 
 		filePath = fileBrowser.File ();
-		Debug.Log ("PlaylistItemActions.ChooseFileStart(), filePath: " + filePath);
+		Debug.Log ("PlaylistItemActions.ChooseFileCoroutine(), filePath: " + filePath);
 
 		SetSoundPath (filePath);
 		playlistScreen.Appear ();
@@ -60,33 +56,28 @@ public class PlaylistItemActions : MonoBehaviour {
 		StartCoroutine( LoadSound(filePath) );
 	}
 
-	
 	IEnumerator LoadSound(string fileName)
 	{
 		Debug.Log("PlaylistItemActions.LoadSound('"+fileName+"')");
 		
 		fileName = fileBrowser.protocolPrefix + fileName;
-		//Debug.Log (fileName);
 
 		w = new WWW(fileName);
 		while (!w.isDone)
 		{
-			//fileLoadTime += fileLoadTimeStep;
-			//Debug.Log("LoadSound: still loading '"+fileName+"'");
 			soundStatus.SetStatus("wait");
 			yield return new WaitForSeconds(fileLoadTimeStep);
 		}
-		//Debug.Log("PlaylistItemActions.LoadSound: LOAD COMPLETE '"+fileName+"', "+fileLoadTime+" sec ");
 		Debug.Log("PlaylistItemActions.LoadSound(), load complete '"+fileName+"'");
+
+		clip = w.audioClip;
+
 		soundStatus.SetStatus("ready");
 		
-		clip = w.audioClip;
-		//Debug.Log ("PlaylistItemActions.LoadSound(), clip: "+clip);
-		//Debug.Log ("PlaylistItemActions.LoadSound(), clip length: "+clip.length);
-		//Debug.Log ("PlaylistItemActions.LoadSound(), clip frequency: "+clip.frequency);
-		
-		int index = playlist.Add (fileName,clip);
+		int newIndex = playlist.Add (fileName,clip);
 		Debug.Log ("PlaylistItemActions.LoadSound(), added index: "+index);
+
+		index = newIndex;
 	}
 
 	public void SetSoundPath(string path)
@@ -100,4 +91,10 @@ public class PlaylistItemActions : MonoBehaviour {
 		Debug.Log ("PlaylistItemActions.Remove()");
 		Destroy (gameObject);
 	}
+
+	public int Index()
+	{
+		return index;
+	}
+
 }

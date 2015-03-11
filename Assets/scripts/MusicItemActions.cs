@@ -17,7 +17,13 @@ public class MusicItemActions : MonoBehaviour {
 	public Button skipToBeginButton;
 	
 	private int id;
-	
+
+	public void Start()
+	{
+		Debug.Log ("_-*-_-*-_-*-_-*-_-*-_-*-_-*-_-*-_-*-_-*-_-*-_-*-_-*-_-*-_-*-_-*-_-*-_-*-_-*-_-*-_-*-_");
+		Debug.Log ("_-*-_-*-_-*-_-*-_-*-_-*-_-*-_ MusicItemActions.Start() _-*-_-*-_-*-_-*-_-*-_-*-_-*-_");
+		Debug.Log ("_-*-_-*-_-*-_-*-_-*-_-*-_-*-_-*-_-*-_-*-_-*-_-*-_-*-_-*-_-*-_-*-_-*-_-*-_-*-_-*-_-*-_");
+	}
 	
 	public void SetId(int anId)
 	{

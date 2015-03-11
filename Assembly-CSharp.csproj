@@ -46,24 +46,19 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\FBFooter.cs" />
      <Compile Include="Assets\scripts\BOXActions.cs" />
      <Compile Include="Assets\scripts\BOXActions_old.cs" />
      <Compile Include="Assets\scripts\FBList.cs" />
      <Compile Include="Assets\scripts\FBListItem.cs" />
      <Compile Include="Assets\scripts\FileBrowser.cs" />
      <Compile Include="Assets\scripts\MusicItemActions.cs" />
-     <Compile Include="Assets\scripts\MusicItemActions_old.cs" />
      <Compile Include="Assets\scripts\MusicScreenActions.cs" />
-     <Compile Include="Assets\scripts\MusicScreenActions_old.cs" />
      <Compile Include="Assets\scripts\PlayPauseButtonActions.cs" />
      <Compile Include="Assets\scripts\Player.cs" />
      <Compile Include="Assets\scripts\Playlist.cs" />
      <Compile Include="Assets\scripts\PlaylistItemActions.cs" />
      <Compile Include="Assets\scripts\PlaylistScreenActions.cs" />
      <Compile Include="Assets\scripts\ProgressBarActions.cs" />
-     <Compile Include="Assets\scripts\SettingsItemActions_old.cs" />
-     <Compile Include="Assets\scripts\SettingsScreenActions_old.cs" />
      <Compile Include="Assets\scripts\SoundStatus.cs" />
      <None Include="Assets\BUGS.txt" />
  <Reference Include="UnityEngine.UI">
