@@ -57,10 +57,20 @@ public class Playlist : MonoBehaviour {
 		return currentIndex;
 	}
 
-	public void Del(int index)
+	public bool Del(int index)
 	{
 		Debug.Log ("Playlist.Del(" + index + ")");
 
+		if (null != list[index])
+		{
+			list[index] = null;
+			return true;
+		}
+		else
+		{
+			Debug.Log ("Playlist.Del(): there is no index"+index);
+			return false;
+		}
 	}
 
 	public void Change(int index, string path, AudioClip clip)
