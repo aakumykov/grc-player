@@ -27,6 +27,7 @@ public class PlaylistItemActions : MonoBehaviour {
 		//Debug.Log ("@@@@@@@@@@@@@@ PlaylistItemActions.Start() @@@@@@@@@@@@@@@, "+(clip.length==null));
 		//Debug.Log ("@@@@@@@@@@@@@@ PlaylistItemActions.Start() @@@@@@@@@@@@@@@, "+index);
 		soundStatus.SetStatus ("inactive");
+		soundPath.text = "";
 		transform.SetParent (playlistScreen.transform, false);
 	}
 	
@@ -96,7 +97,8 @@ public class PlaylistItemActions : MonoBehaviour {
 	
 	public void Remove()
 	{
-		Debug.Log ("PlaylistItemActions.Remove()");
+		Debug.Log ("PlaylistItemActions.Remove(), index="+index);
+		playlist.Del(index);
 		Destroy (gameObject);
 	}
 

@@ -16,6 +16,7 @@ public class Playlist : MonoBehaviour {
 		
 		public ListItem(int anIndex, string aPath, AudioClip aClip)
 		{
+			Debug.Log ("ListItem.__construct("+anIndex+", "+aPath+", "+aClip+")");
 			index = anIndex;
 			title = aPath;
 			clip = aClip;
@@ -158,13 +159,13 @@ public class Playlist : MonoBehaviour {
 	{
 		Debug.Log ("Playlist.Id2Title("+id+")");
 
-		if (null==list[id]) 
+		/*if (null==list[id]) 
 		{
 			Debug.Log("Playlist.Id2Title(): there is no list["+id+"]");
 			return null;
-		}
+		}*/
 
-		string title = list [id].Title ();
+		string title = list[id].Title();
 		Debug.Log ("Playlist.Id2Title(): title "+id+" is '"+title);
 
 		return title;
