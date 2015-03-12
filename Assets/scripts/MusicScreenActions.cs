@@ -6,7 +6,7 @@ public class MusicScreenActions : MonoBehaviour {
 
 	public Player player;
 	public Playlist playlist;
-	public GameObject firstMusicItem;
+	public GameObject aMusicItem;
 	
 	void Awake()
 	{
@@ -20,9 +20,12 @@ public class MusicScreenActions : MonoBehaviour {
 
 	public void GenerateList()
 	{
-		// Удаляю, начиная со второго
 		GameObject[] allItems = GameObject.FindGameObjectsWithTag("MusicItem");
+		string title = playlist.Id2Title(0);
+		if (null == title) title = "* не установлено *";
+		allItems [0].GetComponent<MusicItemActions> ().Fill (0, title);
 
+		// Удаляю, начиная со второго
 		for (int i=1; i<allItems.Length; i+=1)
 		{
 			Destroy(allItems[i]);
@@ -36,17 +39,13 @@ public class MusicScreenActions : MonoBehaviour {
 		for (int i=1; i<playlist.Size(); i+=1)
 		{
 			GameObject item = Instantiate(
-									firstMusicItem,
+									aMusicItem,
 									new Vector3(0,y,0),
 									new Quaternion()
 								) as GameObject;
+			item.GetComponent<MusicItemActions>().Fill(i,playlist.Id2Title(i));
 			item.transform.SetParent(transform,false);
 			y -= dY;
-			
-			item.GetComponent<MusicItemActions>().Fill(
-					i,
-					playlist.Id2Title(i)
-			);
 		}
 	}
 	
